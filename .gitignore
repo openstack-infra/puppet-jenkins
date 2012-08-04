@@ -1,6 +1,0 @@
-*.swp
-*~
-*.pyc
-applytest
-doc/html/
-manifests/secrets.pp

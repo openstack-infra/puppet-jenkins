@@ -1,5 +1,0 @@
-#!/bin/sh
-
-python /usr/local/gerrit/scripts/update_blueprint.py patchset-created "$@"
-python /usr/local/gerrit/scripts/update_bug.py patchset-created "$@"
-python /usr/local/gerrit/scripts/notify_doc_impact.py patchset-created "$@"
