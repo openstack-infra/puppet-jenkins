@@ -1,0 +1,11 @@
+{
+  "name": "openstackci-jenkins",
+  "version": "0.0.1",
+  "author": "Openstack CI",
+  "summary": "Puppet module for Jenkins",
+  "license": "Apache 2.0",
+  "source": "git://git.openstack.org/openstack-infra/puppet-jenkins.git",
+  "project_page": "http://ci.openstack.org/",
+  "issues_url": "https://storyboard.openstack.org/#!/search?q=puppet-jenkins",
+  "dependencies": []
+}
