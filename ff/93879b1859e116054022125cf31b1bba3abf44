@@ -1,0 +1,7 @@
+Verified+2: Jenkins
+Code-Review+1: Andrew Hutchings <andrew@linuxjedi.co.uk>
+Submitted-by: Jenkins
+Submitted-at: Mon, 21 May 2012 14:29:36 +0000
+Reviewed-on: https://review.openstack.org/7623
+Project: openstack-infra/puppet-jenkins
+Branch: refs/heads/master

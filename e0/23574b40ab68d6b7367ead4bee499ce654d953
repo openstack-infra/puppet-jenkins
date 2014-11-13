@@ -1,0 +1,7 @@
+Code-Review+2: James E. Blair <corvus@inaugust.com>
+Workflow+1: James E. Blair <corvus@inaugust.com>
+Submitted-by: James E. Blair <corvus@inaugust.com>
+Submitted-at: Wed, 28 Mar 2012 22:40:53 +0000
+Reviewed-on: https://review.openstack.org/5937
+Project: openstack-infra/puppet-jenkins
+Branch: refs/heads/master

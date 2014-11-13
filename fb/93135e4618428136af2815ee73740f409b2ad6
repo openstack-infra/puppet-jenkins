@@ -1,0 +1,9 @@
+Code-Review+2: Monty Taylor <mordred@inaugust.com>
+Workflow+1: Monty Taylor <mordred@inaugust.com>
+Verified+1: Jenkins
+Code-Review+1: Andrew Hutchings <andrew@linuxjedi.co.uk>
+Submitted-by: Jenkins
+Submitted-at: Thu, 03 May 2012 21:30:50 +0000
+Reviewed-on: https://review.openstack.org/7080
+Project: openstack-infra/puppet-jenkins
+Branch: refs/heads/master

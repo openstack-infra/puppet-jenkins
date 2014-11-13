@@ -1,0 +1,8 @@
+Code-Review+2: James E. Blair <corvus@inaugust.com>
+Verified+1: Jenkins
+Code-Review+1: Jesse Andrews <anotherjesse@gmail.com>
+Submitted-by: Jenkins
+Submitted-at: Thu, 22 Sep 2011 00:06:40 +0000
+Reviewed-on: https://review.openstack.org/518
+Project: openstack-infra/puppet-jenkins
+Branch: refs/heads/master

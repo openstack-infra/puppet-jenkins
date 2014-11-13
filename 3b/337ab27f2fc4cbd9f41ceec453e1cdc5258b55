@@ -1,0 +1,9 @@
+Code-Review+2: Monty Taylor <mordred@inaugust.com>
+Workflow+1: Monty Taylor <mordred@inaugust.com>
+Verified+2: Jenkins
+Code-Review+2: Clark Boylan <cboylan@sapwetik.org>
+Submitted-by: Jenkins
+Submitted-at: Wed, 18 Jul 2012 12:49:33 +0000
+Reviewed-on: https://review.openstack.org/9729
+Project: openstack-infra/puppet-jenkins
+Branch: refs/heads/master
