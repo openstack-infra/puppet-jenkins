@@ -6,6 +6,6 @@
   "license": "Apache 2.0",
   "source": "git://git.openstack.org/openstack-infra/puppet-jenkins.git",
   "project_page": "http://ci.openstack.org/",
-  "issues_url": "https://storyboard.openstack.org/#!/search?q=puppet-jenkins",
+  "issues_url": "https://storyboard.openstack.org/#!/project/752",
   "dependencies": []
 }
