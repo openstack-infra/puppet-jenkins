@@ -17,12 +17,6 @@ class jenkins::job_builder (
     }
   }
 
-  if ! defined(Package['python-jenkins']) {
-    package { 'python-jenkins':
-      ensure => present,
-    }
-  }
-
   vcsrepo { '/opt/jenkins_job_builder':
     ensure   => latest,
     provider => git,
@@ -61,7 +55,6 @@ class jenkins::job_builder (
     refreshonly => true,
     require     => [
       File['/etc/jenkins_jobs/jenkins_jobs.ini'],
-      Package['python-jenkins'],
       Package['python-yaml'],
     ],
   }
