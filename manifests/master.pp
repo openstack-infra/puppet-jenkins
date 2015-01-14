@@ -65,6 +65,11 @@ class jenkins::master(
       ensure => present,
     }
   }
+  if ! defined(A2mod['headers']) {
+    a2mod { 'headers':
+      ensure => present,
+    }
+  }
 
   if $ssl_cert_file_contents != '' {
     file { $ssl_cert_file:
