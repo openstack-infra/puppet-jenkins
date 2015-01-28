@@ -1,8 +1,0 @@
-name 'openstackci-jenkins'
-version '0.0.1'
-source 'git://git.openstack.org/openstack-infra/puppet-jenkins.git'
-author 'Openstack CI'
-license 'Apache 2.0'
-summary 'Puppet module for Jenkins'
-description 'This module installs and configures Jenkins.'
-project_page 'http://ci.openstack.org/'
