@@ -3,7 +3,6 @@
 class jenkins::slave(
   $ssh_key = '',
   $user = true,
-  $python3 = false,
   $gitfullname = 'OpenStack Jenkins',
   $gitemail = 'jenkins@openstack.org',
   $gerrituser = 'jenkins',
@@ -91,24 +90,10 @@ class jenkins::slave(
     }
   }
 
-  if $python3 {
-    if ($::lsbdistcodename == 'precise') {
-      apt::ppa { 'ppa:zulcss/py3k':
-        before => Class[pip::python3],
-      }
-    }
-    include pip::python3
-    package { 'tox':
-      ensure   => 'latest',
-      provider => pip3,
-      require  => Class['pip::python3'],
-    }
-  } else {
-    package { 'tox':
-      ensure   => 'latest',
-      provider => pip,
-      require  => Class['pip'],
-    }
+  package { 'tox':
+    ensure   => 'latest',
+    provider => pip,
+    require  => Class[pip],
   }
 
   package { 'git-review':
