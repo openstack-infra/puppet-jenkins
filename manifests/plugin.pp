@@ -19,6 +19,7 @@
 
 define jenkins::plugin(
   $version=0,
+  $pin=false,
 ) {
   $plugin            = "${name}.hpi"
   $plugin_dir        = '/var/lib/jenkins/plugins'
@@ -66,5 +67,19 @@ define jenkins::plugin(
 #    OpenStack modification: don't auto-restart jenkins so we can control
 #    outage timing better.
 #    notify   => Service['jenkins'],
+  }
+
+  if (pin) {
+    file { "${plugin_dir}/${plugin}.pinned":
+      ensure  => present,
+      require => Exec["download-${name}"],
+      owner   => 'jenkins',
+      group   => 'jenkins',
+      mode    => '0644',
+    }
+  } else {
+    file { "${plugin_dir}/${plugin}.pinned":
+      ensure => absent,
+    }
   }
 }
