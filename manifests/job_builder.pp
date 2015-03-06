@@ -7,6 +7,7 @@ class jenkins::job_builder (
   $git_revision = 'master',
   $git_url = 'https://git.openstack.org/openstack-infra/jenkins-job-builder',
   $config_dir = '',
+  $hipchat_authtoken = '',
 ) {
 
   # A lot of things need yaml, be conservative requiring this package to avoid
