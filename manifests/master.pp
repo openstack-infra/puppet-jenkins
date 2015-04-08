@@ -12,11 +12,64 @@ class jenkins::master(
   $ssl_chain_file_contents = '', # If left empty puppet will not create file.
   $jenkins_ssh_private_key = '',
   $jenkins_ssh_public_key = '',
+  $install_method = 'apt', # do dpkg or apt install of jenkins
+  $install_repo   = 'http://pkg.jenkins-ci.org/debian-stable', # repo to use
 ) {
   include pip
   include apt
   include apache
-
+  case $install_method {
+    /^apt$/: {
+      # install using apt provider, default
+      #This key is at http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key
+      apt::key { 'jenkins':
+        key        => 'D50582E6',
+        key_source => "${install_repo}/jenkins-ci.org.key",
+      }
+      apt::source { 'jenkins':
+        location    => $install_repo,
+        release     => 'binary/',
+        repos       => '',
+        require     => [
+          Apt::Key['jenkins'],
+          Package['openjdk-7-jre-headless'],
+        ],
+        include_src => false,
+      }
+      exec { 'update apt cache':
+        subscribe   => File['/etc/apt/sources.list.d/jenkins.list'],
+        refreshonly => true,
+        path        => '/bin:/usr/bin',
+        command     => 'apt-get update',
+      }
+      package { 'jenkins':
+        ensure  => present,
+        require => Apt::Source['jenkins'],
+      }
+    }
+    /^dpkg$/: {
+      # install using dpk provider, example, install_rep =>
+      # http://pkg.jenkins-ci.org/debian-stable/binary/jenkins_1.565.3_all.deb
+      # to try it , setup hiera values for it.
+      exec { 'jenkins_dpkg_file':
+        path    => '/bin:/usr/bin',
+        command => "curl -s -k -L ${install_repo} > /tmp/jenkins-download.deb",
+        creates => '/tmp/jenkins-download.deb',
+      }
+      package { 'jenkins':
+        ensure   => present,
+        provider => dpkg,
+        source   => '/tmp/jenkins-download.deb',
+        require  => [
+          Exec['jenkins_dpkg_file'],
+          Package['openjdk-7-jre-headless'],
+        ],
+      }
+    }
+    default: {
+      fail("install_method is ${install_method}, invalid.  use apt or dpkg.")
+    }
+  }
   package { 'openjdk-7-jre-headless':
     ensure => present,
   }
@@ -24,23 +77,6 @@ class jenkins::master(
   package { 'openjdk-6-jre-headless':
     ensure  => purged,
     require => Package['openjdk-7-jre-headless'],
-  }
-
-  #This key is at http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key
-  apt::key { 'jenkins':
-    key        => 'D50582E6',
-    key_source => 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key',
-  }
-
-  apt::source { 'jenkins':
-    location    => 'http://pkg.jenkins-ci.org/debian-stable',
-    release     => 'binary/',
-    repos       => '',
-    require     => [
-      Apt::Key['jenkins'],
-      Package['openjdk-7-jre-headless'],
-    ],
-    include_src => false,
   }
 
   apache::vhost { $vhost_name:
@@ -111,18 +147,6 @@ class jenkins::master(
 
   package { $packages:
     ensure => present,
-  }
-
-  package { 'jenkins':
-    ensure  => present,
-    require => Apt::Source['jenkins'],
-  }
-
-  exec { 'update apt cache':
-    subscribe   => File['/etc/apt/sources.list.d/jenkins.list'],
-    refreshonly => true,
-    path        => '/bin:/usr/bin',
-    command     => 'apt-get update',
   }
 
   file { '/var/lib/jenkins':
