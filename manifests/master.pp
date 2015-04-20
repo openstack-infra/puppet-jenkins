@@ -135,14 +135,14 @@ class jenkins::master(
   file { '/var/lib/jenkins/.ssh/':
     ensure  => directory,
     owner   => 'jenkins',
-    group   => 'nogroup',
+    group   => 'jenkins',
     mode    => '0700',
     require => File['/var/lib/jenkins'],
   }
 
   file { '/var/lib/jenkins/.ssh/id_rsa':
     owner   => 'jenkins',
-    group   => 'nogroup',
+    group   => 'jenkins',
     mode    => '0600',
     content => $jenkins_ssh_private_key,
     replace => true,
@@ -151,7 +151,7 @@ class jenkins::master(
 
   file { '/var/lib/jenkins/.ssh/id_rsa.pub':
     owner   => 'jenkins',
-    group   => 'nogroup',
+    group   => 'jenkins',
     mode    => '0644',
     content => "ssh_rsa ${jenkins_ssh_public_key} jenkins@${::fqdn}",
     replace => true,
@@ -161,7 +161,7 @@ class jenkins::master(
   file { '/var/lib/jenkins/plugins':
     ensure  => directory,
     owner   => 'jenkins',
-    group   => 'nogroup',
+    group   => 'jenkins',
     mode    => '0750',
     require => File['/var/lib/jenkins'],
   }
@@ -169,14 +169,14 @@ class jenkins::master(
   file { '/var/lib/jenkins/plugins/simple-theme-plugin':
     ensure  => directory,
     owner   => 'jenkins',
-    group   => 'nogroup',
+    group   => 'jenkins',
     require => File['/var/lib/jenkins/plugins'],
   }
 
   file { '/var/lib/jenkins/plugins/simple-theme-plugin/openstack.css':
     ensure  => present,
     owner   => 'jenkins',
-    group   => 'nogroup',
+    group   => 'jenkins',
     source  => 'puppet:///modules/jenkins/openstack.css',
     require => File['/var/lib/jenkins/plugins/simple-theme-plugin'],
   }
@@ -184,7 +184,7 @@ class jenkins::master(
   file { '/var/lib/jenkins/plugins/simple-theme-plugin/openstack.js':
     ensure  => present,
     owner   => 'jenkins',
-    group   => 'nogroup',
+    group   => 'jenkins',
     content => template('jenkins/openstack.js.erb'),
     require => File['/var/lib/jenkins/plugins/simple-theme-plugin'],
   }
@@ -192,7 +192,7 @@ class jenkins::master(
   file { '/var/lib/jenkins/plugins/simple-theme-plugin/openstack-page-bkg.jpg':
     ensure  => present,
     owner   => 'jenkins',
-    group   => 'nogroup',
+    group   => 'jenkins',
     source  => 'puppet:///modules/jenkins/openstack-page-bkg.jpg',
     require => File['/var/lib/jenkins/plugins/simple-theme-plugin'],
   }
@@ -200,7 +200,7 @@ class jenkins::master(
   file { '/var/lib/jenkins/logger.conf':
     ensure  => present,
     owner   => 'jenkins',
-    group   => 'nogroup',
+    group   => 'jenkins',
     source  => 'puppet:///modules/jenkins/logger.conf',
     require => File['/var/lib/jenkins'],
   }
@@ -208,7 +208,7 @@ class jenkins::master(
   file { '/var/lib/jenkins/plugins/simple-theme-plugin/title.png':
     ensure  => present,
     owner   => 'jenkins',
-    group   => 'nogroup',
+    group   => 'jenkins',
     source  => "puppet:///modules/jenkins/${logo}",
     require => File['/var/lib/jenkins/plugins/simple-theme-plugin'],
   }
