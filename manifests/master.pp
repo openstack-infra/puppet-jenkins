@@ -12,6 +12,7 @@ class jenkins::master(
   $ssl_chain_file_contents = '', # If left empty puppet will not create file.
   $jenkins_ssh_private_key = '',
   $jenkins_ssh_public_key = '',
+  $jenkins_max_mem = '12g', # The Xmx jvm parameter
 ) {
   include pip
   include apt
@@ -123,6 +124,15 @@ class jenkins::master(
     refreshonly => true,
     path        => '/bin:/usr/bin',
     command     => 'apt-get update',
+  }
+
+  file { '/etc/default/jenkins':
+    ensure  => present,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    content => template('jenkins/jenkins.default.erb'),
+    require => Package['jenkins'],
   }
 
   file { '/var/lib/jenkins':
