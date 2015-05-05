@@ -9,6 +9,7 @@ class jenkins::job_builder (
   $config_dir = '',
   $jenkins_jobs_update_timeout = '600',
   $extensions = [],
+  $workers = 0,
 ) {
   validate_array($extensions)
 
@@ -58,7 +59,7 @@ class jenkins::job_builder (
   }
 
   exec { 'jenkins_jobs_update':
-    command     => 'jenkins-jobs update --delete-old /etc/jenkins_jobs/config',
+    command     => "jenkins-jobs update --workers=${workers} --delete-old /etc/jenkins_jobs/config",
     timeout     => $jenkins_jobs_update_timeout,
     path        => '/bin:/usr/bin:/usr/local/bin',
     refreshonly => true,
