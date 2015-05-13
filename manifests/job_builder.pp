@@ -4,6 +4,7 @@ class jenkins::job_builder (
   $url = '',
   $username = '',
   $password = '',
+  $wait_time = 120,
   $git_revision = 'master',
   $git_url = 'https://git.openstack.org/openstack-infra/jenkins-job-builder',
   $config_dir = '',
@@ -58,7 +59,7 @@ class jenkins::job_builder (
   }
 
   exec { 'jenkins_jobs_update':
-    command     => 'jenkins-jobs update --delete-old /etc/jenkins_jobs/config',
+    command     => "jenkins-jobs update --delete-old --wait $wait_time /etc/jenkins_jobs/config",
     timeout     => $jenkins_jobs_update_timeout,
     path        => '/bin:/usr/bin:/usr/local/bin',
     refreshonly => true,
