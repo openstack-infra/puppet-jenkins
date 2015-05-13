@@ -8,6 +8,8 @@ class jenkins::job_builder (
   $git_url = 'https://git.openstack.org/openstack-infra/jenkins-job-builder',
   $config_dir = '',
   $jenkins_jobs_update_timeout = '600',
+  $tries = 6,
+  $try_sleep = 20,
   $extensions = [],
 ) {
   validate_array($extensions)
@@ -61,6 +63,8 @@ class jenkins::job_builder (
     command     => 'jenkins-jobs update --delete-old /etc/jenkins_jobs/config',
     timeout     => $jenkins_jobs_update_timeout,
     path        => '/bin:/usr/bin:/usr/local/bin',
+    tries       => $tries,
+    try_sleep   => $try_sleep,
     refreshonly => true,
     require     => [
       File['/etc/jenkins_jobs/jenkins_jobs.ini'],
