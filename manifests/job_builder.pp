@@ -4,6 +4,8 @@ class jenkins::job_builder (
   $url = '',
   $username = '',
   $password = '',
+  $cmd_tries = 12,
+  $cmd_sleep = 10,
   $git_revision = 'master',
   $git_url = 'https://git.openstack.org/openstack-infra/jenkins-job-builder',
   $config_dir = '',
