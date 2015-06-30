@@ -97,7 +97,7 @@ class jenkins::slave(
   }
 
   package { 'git-review':
-    ensure   => '1.17',
+    ensure   => '1.25.0',
     provider => pip,
     require  => Class[pip],
   }
