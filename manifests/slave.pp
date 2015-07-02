@@ -96,8 +96,9 @@ class jenkins::slave(
     require  => Class[pip],
   }
 
+  # TODO(fungi): switch jobs to use /usr/git-review-env/bin/git-review
   package { 'git-review':
-    ensure   => 'latest',
+    ensure   => '1.25.0',
     provider => pip,
     require  => Class[pip],
   }
