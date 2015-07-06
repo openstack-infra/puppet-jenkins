@@ -15,7 +15,7 @@ class jenkins::master(
 ) {
   include pip
   include apt
-  include apache
+  include httpd
 
   package { 'openjdk-7-jre-headless':
     ensure => present,
@@ -43,30 +43,30 @@ class jenkins::master(
     include_src => false,
   }
 
-  apache::vhost { $vhost_name:
+  httpd::vhost { $vhost_name:
     port     => 443,
     docroot  => 'MEANINGLESS ARGUMENT',
     priority => '50',
     template => 'jenkins/jenkins.vhost.erb',
     ssl      => true,
   }
-  if ! defined(A2mod['rewrite']) {
-    a2mod { 'rewrite':
+  if ! defined(Httpd_mod['rewrite']) {
+    httpd_mod { 'rewrite':
       ensure => present,
     }
   }
-  if ! defined(A2mod['proxy']) {
-    a2mod { 'proxy':
+  if ! defined(Httpd_mod['proxy']) {
+    httpd_mod { 'proxy':
       ensure => present,
     }
   }
-  if ! defined(A2mod['proxy_http']) {
-    a2mod { 'proxy_http':
+  if ! defined(Httpd_mod['proxy_http']) {
+    httpd_mod { 'proxy_http':
       ensure => present,
     }
   }
-  if ! defined(A2mod['headers']) {
-    a2mod { 'headers':
+  if ! defined(Httpd_mod['headers']) {
+    httpd_mod { 'headers':
       ensure => present,
     }
   }
@@ -77,7 +77,7 @@ class jenkins::master(
       group   => 'root',
       mode    => '0640',
       content => $ssl_cert_file_contents,
-      before  => Apache::Vhost[$vhost_name],
+      before  => Httpd::Vhost[$vhost_name],
     }
   }
 
@@ -88,7 +88,7 @@ class jenkins::master(
       mode    => '0640',
       content => $ssl_key_file_contents,
       require => Package['ssl-cert'],
-      before  => Apache::Vhost[$vhost_name],
+      before  => Httpd::Vhost[$vhost_name],
     }
   }
 
@@ -98,7 +98,7 @@ class jenkins::master(
       group   => 'root',
       mode    => '0640',
       content => $ssl_chain_file_contents,
-      before  => Apache::Vhost[$vhost_name],
+      before  => Httpd::Vhost[$vhost_name],
     }
   }
 
