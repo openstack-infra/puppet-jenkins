@@ -25,7 +25,7 @@ define jenkins::plugin(
   $plugin_dir        = '/var/lib/jenkins/plugins'
   $plugin_parent_dir = '/var/lib/jenkins'
 
-  if ($version != 0) {
+  if (versioncmp($version, '0') != 0) {
     $base_url = "http://updates.jenkins-ci.org/download/plugins/${name}/${version}"
   }
   else {
