@@ -8,12 +8,12 @@ class jenkins::slave(
   $gerrituser = 'jenkins',
 ) {
 
-  include haveged
-  include pip
-  include jenkins::params
+  include ::haveged
+  include ::pip
+  include ::jenkins::params
 
   if ($user == true) {
-    class { 'jenkins::jenkinsuser':
+    class { '::jenkins::jenkinsuser':
       ensure      => present,
       ssh_key     => $ssh_key,
       gitfullname => $gitfullname,
@@ -49,9 +49,9 @@ class jenkins::slave(
 
       if ($::operatingsystem != 'Fedora') {
         exec { 'update-java-alternatives':
-          unless   => '/bin/ls -l /etc/alternatives/java | /bin/grep 1.7.0-openjdk',
-          command  => '/usr/sbin/alternatives --set java /usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java && /usr/sbin/alternatives --set javac /usr/lib/jvm/java-1.7.0-openjdk.x86_64/bin/javac',
-          require  => Anchor['jenkins::slave::update-java-alternatives']
+          unless  => '/bin/ls -l /etc/alternatives/java | /bin/grep 1.7.0-openjdk',
+          command => '/usr/sbin/alternatives --set java /usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java && /usr/sbin/alternatives --set javac /usr/lib/jvm/java-1.7.0-openjdk.x86_64/bin/javac',
+          require => Anchor['jenkins::slave::update-java-alternatives']
         }
       }
     }
@@ -80,9 +80,9 @@ class jenkins::slave(
       }
 
       exec { 'update-java-alternatives':
-        unless   => "/bin/ls -l /etc/alternatives/java | /bin/grep java-7-openjdk-${::dpkg_arch}",
-        command  => "/usr/sbin/update-java-alternatives --set java-1.7.0-openjdk-${::dpkg_arch}",
-        require  => Anchor['jenkins::slave::update-java-alternatives']
+        unless  => "/bin/ls -l /etc/alternatives/java | /bin/grep java-7-openjdk-${::dpkg_arch}",
+        command => "/usr/sbin/update-java-alternatives --set java-1.7.0-openjdk-${::dpkg_arch}",
+        require => Anchor['jenkins::slave::update-java-alternatives']
       }
     }
     default: {
