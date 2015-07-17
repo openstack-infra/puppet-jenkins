@@ -2,9 +2,9 @@
 #
 class jenkins::cgroups {
 
-  include jenkins::params
+  include ::jenkins::params
 
-  if ($::jenkins::params::cgroups_tools_package != '') {
+  if ($::jenkins::params::cgroups_tools_package != undef) {
     package { 'cgroups-tools':
       ensure => present,
       name   => $::jenkins::params::cgroups_tools_package,
