@@ -1,7 +1,7 @@
 # == Class: jenkins::jenkinsuser
 #
 class jenkins::jenkinsuser(
-  $ssh_key = '',
+  $ssh_key = undef,
   $ensure = present,
   $gitfullname = 'OpenStack Jenkins',
   $gitemail = 'jenkins@openstack.org',
@@ -63,8 +63,8 @@ class jenkins::jenkinsuser(
     require => File['/home/jenkins/.ssh'],
   }
   ssh_authorized_key { '/home/jenkins/.ssh/authorized_keys':
-    ensure  => absent,
-    user    => 'jenkins',
+    ensure => absent,
+    user   => 'jenkins',
   }
 
   #NOTE: not all distributions have default bash files in /etc/skel
