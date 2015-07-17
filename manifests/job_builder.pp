@@ -3,10 +3,10 @@
 class jenkins::job_builder (
   $username,
   $password,
-  $url = '',
+  $url = undef,
   $git_revision = 'master',
   $git_url = 'https://git.openstack.org/openstack-infra/jenkins-job-builder',
-  $config_dir = '',
+  $config_dir = undef,
   $jenkins_jobs_update_timeout = '600',
   $extensions = [],
 ) {
