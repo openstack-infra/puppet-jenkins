@@ -7,7 +7,7 @@ class jenkins::params {
     'RedHat': {
       #yum groupinstall "Development Tools"
       # common packages
-      if ($::operatingsystem == 'Fedora') and ($::operatingsystemrelease >= 21) {
+      if ($::operatingsystem == 'Fedora') and (versioncmp($::operatingsystemrelease, '21') >= 0) {
         $jdk_package = 'java-1.8.0-openjdk-devel'
       } else {
         $jdk_package = 'java-1.7.0-openjdk-devel'
@@ -17,7 +17,7 @@ class jenkins::params {
       # FIXME: No Maven packages on RHEL
       #$maven_package = 'maven'
       $cgroups_package = 'libcgroup'
-      if ($::operatingsystem == 'Fedora') and ($::operatingsystemrelease >= 19) {
+      if ($::operatingsystem == 'Fedora') and (versioncmp($::operatingsystemrelease, '19') >= 0) {
         $cgroups_tools_package = 'libcgroup-tools'
         $cgconfig_require = [
           Package['cgroups'],
