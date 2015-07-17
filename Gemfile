@@ -20,6 +20,7 @@ group :development, :test do
   gem 'puppet-lint-numericvariable'
   gem 'puppet-lint-spaceship_operator_without_tag-check'
   gem 'puppet-lint-undef_in_function-check'
+  gem 'puppet-lint-version_comparison-check'
 
   if puppetversion = ENV['PUPPET_GEM_VERSION']
     gem 'puppet', puppetversion, :require => false

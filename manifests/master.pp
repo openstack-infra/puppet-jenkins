@@ -15,7 +15,7 @@ class jenkins::master(
 ) {
   include ::pip
   include ::apt
-  include ::apache
+  include ::httpd
 
   package { 'openjdk-7-jre-headless':
     ensure => present,
