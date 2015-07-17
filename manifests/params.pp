@@ -28,7 +28,7 @@ class jenkins::params {
           Package['cgroups-tools'],
         ]
       } else {
-        $cgroups_tools_package = ''
+        $cgroups_tools_package = undef
         $cgconfig_require = Package['cgroups']
         $cgred_require = Package['cgroups']
       }
@@ -42,7 +42,7 @@ class jenkins::params {
       $ruby1_9_1_package = 'ruby1.9.1'
       $ruby1_9_1_dev_package = 'ruby1.9.1-dev'
       $cgroups_package = 'cgroup-bin'
-      $cgroups_tools_package = ''
+      $cgroups_tools_package = undef
       $cgconfig_require = [
         Package['cgroups'],
         File['/etc/init/cgconfig.conf'],

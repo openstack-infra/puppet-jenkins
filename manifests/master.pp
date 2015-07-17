@@ -1,20 +1,20 @@
 # == Class: jenkins::master
 #
 class jenkins::master(
-  $logo = '',
+  $logo = undef,
   $vhost_name = $::fqdn,
   $serveradmin = "webmaster@${::fqdn}",
-  $ssl_cert_file = '',
-  $ssl_key_file = '',
-  $ssl_chain_file = '',
-  $ssl_cert_file_contents = '', # If left empty puppet will not create file.
-  $ssl_key_file_contents = '', # If left empty puppet will not create file.
-  $ssl_chain_file_contents = '', # If left empty puppet will not create file.
-  $jenkins_ssh_private_key = '',
-  $jenkins_ssh_public_key = '',
+  $ssl_cert_file = undef,
+  $ssl_key_file = undef,
+  $ssl_chain_file = undef,
+  $ssl_cert_file_contents = undef, # If left empty puppet will not create file.
+  $ssl_key_file_contents = undef, # If left empty puppet will not create file.
+  $ssl_chain_file_contents = undef, # If left empty puppet will not create file.
+  $jenkins_ssh_private_key = undef,
+  $jenkins_ssh_public_key = undef,
 ) {
-  include pip
-  include apt
+  include ::pip
+  include ::apt
   include ::httpd
 
   package { 'openjdk-7-jre-headless':
@@ -71,7 +71,7 @@ class jenkins::master(
     }
   }
 
-  if $ssl_cert_file_contents != '' {
+  if $ssl_cert_file_contents != undef {
     file { $ssl_cert_file:
       owner   => 'root',
       group   => 'root',
@@ -81,7 +81,7 @@ class jenkins::master(
     }
   }
 
-  if $ssl_key_file_contents != '' {
+  if $ssl_key_file_contents != undef {
     file { $ssl_key_file:
       owner   => 'root',
       group   => 'ssl-cert',
@@ -92,7 +92,7 @@ class jenkins::master(
     }
   }
 
-  if $ssl_chain_file_contents != '' {
+  if $ssl_chain_file_contents != undef {
     file { $ssl_chain_file:
       owner   => 'root',
       group   => 'root',
@@ -126,11 +126,11 @@ class jenkins::master(
   }
 
   file { '/etc/default/jenkins':
-    ensure  => present,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    source  => 'puppet:///modules/jenkins/jenkins.default',
+    ensure => present,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0644',
+    source => 'puppet:///modules/jenkins/jenkins.default',
   }
 
   file { '/var/lib/jenkins':
