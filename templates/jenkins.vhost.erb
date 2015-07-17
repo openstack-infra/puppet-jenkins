@@ -26,7 +26,7 @@
 
              SSLCertificateFile      <%= scope.lookupvar("::jenkins::master::ssl_cert_file") %>
              SSLCertificateKeyFile   <%= scope.lookupvar("::jenkins::master::ssl_key_file") %>
-             <% if scope.lookupvar("::jenkins::master::ssl_chain_file") != "" %>
+             <% if scope.lookupvar("::jenkins::master::ssl_chain_file") != nil %>
                SSLCertificateChainFile <%= scope.lookupvar("::jenkins::master::ssl_chain_file") %>
              <% end %>
 
