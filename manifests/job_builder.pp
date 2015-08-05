@@ -1,9 +1,9 @@
 # == Class: jenkins::job_builder
 #
 class jenkins::job_builder (
-  $url = '',
-  $username = '',
-  $password = '',
+  $url,
+  $username,
+  $password,
   $git_revision = 'master',
   $git_url = 'https://git.openstack.org/openstack-infra/jenkins-job-builder',
   $config_dir = '',
