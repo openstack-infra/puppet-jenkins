@@ -1,7 +1,7 @@
 # == Class: jenkins::slave
 #
 class jenkins::slave(
-  $ssh_key = '',
+  $ssh_key,
   $user = true,
   $gitfullname = 'OpenStack Jenkins',
   $gitemail = 'jenkins@openstack.org',
