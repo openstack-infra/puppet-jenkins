@@ -9,6 +9,7 @@ class jenkins::job_builder (
   $config_dir = '',
   $jenkins_jobs_update_timeout = '600',
   $extensions = [],
+  $manage_user = false,
 ) {
   validate_array($extensions)
 
@@ -38,6 +39,16 @@ class jenkins::job_builder (
     path        => '/usr/local/bin:/usr/bin:/bin/',
     refreshonly => true,
     subscribe   => Vcsrepo['/opt/jenkins_job_builder'],
+  }
+
+  if $manage_user {
+    ensure_resource('user', $username, {
+      ensure   => present,
+      password => $password,
+      comment  => 'Jenkins Job Builder',
+      home     => '/etc/jenkins_jobs',
+      system   => true,
+    })
   }
 
   file { '/etc/jenkins_jobs':
