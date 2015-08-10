@@ -40,6 +40,14 @@ class jenkins::job_builder (
     subscribe   => Vcsrepo['/opt/jenkins_job_builder'],
   }
 
+  ensure_resource('user', $username, {
+    ensure   => present,
+    password => $password,
+    comment  => 'Jenkins Job Builder',
+    home     => '/etc/jenkins_jobs',
+    system   => true,
+  })
+
   file { '/etc/jenkins_jobs':
     ensure => directory,
   }
