@@ -6,6 +6,7 @@ class jenkins::jenkinsuser(
   $gitfullname = 'OpenStack Jenkins',
   $gitemail = 'jenkins@openstack.org',
   $gerrituser = 'jenkins',
+  $groups = [],
 ) {
 
   group { 'jenkins':
@@ -19,7 +20,7 @@ class jenkins::jenkinsuser(
     gid        => 'jenkins',
     shell      => '/bin/bash',
     membership => 'minimum',
-    groups     => [],
+    groups     => $groups,
     require    => Group['jenkins'],
   }
 
