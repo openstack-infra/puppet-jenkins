@@ -13,14 +13,14 @@ class jenkins::jenkinsuser(
   }
 
   user { 'jenkins':
-    ensure     => present,
-    comment    => 'Jenkins User',
-    home       => '/home/jenkins',
-    gid        => 'jenkins',
-    shell      => '/bin/bash',
-    membership => 'minimum',
-    groups     => [],
-    require    => Group['jenkins'],
+    ensure         => present,
+    comment        => 'Jenkins User',
+    home           => '/home/jenkins',
+    gid            => 'jenkins',
+    shell          => '/bin/bash',
+    membership     => 'minimum',
+    groups         => [],
+    require        => Group['jenkins'],
   }
 
   file { '/home/jenkins':
@@ -55,16 +55,13 @@ class jenkins::jenkinsuser(
     require => File['/home/jenkins'],
   }
 
-  ssh_authorized_key { 'jenkins-master-2014-04-24':
-    ensure  => present,
-    user    => 'jenkins',
-    type    => 'ssh-rsa',
-    key     => $ssh_key,
+  # cleanup old content in directory
+  file { '/home/jenkins/.ssh/authorized_keys':
+    ensure  => 'file',
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    content => template('jenkins/authorized_keys.erb'),
     require => File['/home/jenkins/.ssh'],
-  }
-  ssh_authorized_key { '/home/jenkins/.ssh/authorized_keys':
-    ensure => absent,
-    user   => 'jenkins',
   }
 
   #NOTE: not all distributions have default bash files in /etc/skel
