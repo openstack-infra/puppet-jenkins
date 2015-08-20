@@ -6,6 +6,7 @@ class jenkins::jenkinsuser(
   $gitfullname = 'OpenStack Jenkins',
   $gitemail = 'jenkins@openstack.org',
   $gerrituser = 'jenkins',
+  $key_name   = 'jenkins-master-key',
 ) {
 
   group { 'jenkins':
@@ -55,7 +56,7 @@ class jenkins::jenkinsuser(
     require => File['/home/jenkins'],
   }
 
-  ssh_authorized_key { 'jenkins-master-2014-04-24':
+  ssh_authorized_key { $key_name:
     ensure  => present,
     user    => 'jenkins',
     type    => 'ssh-rsa',
