@@ -26,18 +26,15 @@ class jenkins::master(
     require => Package['openjdk-7-jre-headless'],
   }
 
-  #This key is at http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key
-  apt::key { 'jenkins':
-    key        => 'D50582E6',
-    key_source => 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key',
-  }
-
   apt::source { 'jenkins':
     location    => 'http://pkg.jenkins-ci.org/debian-stable',
     release     => 'binary/',
     repos       => '',
+    key         => {
+      'id'     => 'D50582E6',
+      'source' => 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key',
+    },
     require     => [
-      Apt::Key['jenkins'],
       Package['openjdk-7-jre-headless'],
     ],
     include_src => false,
