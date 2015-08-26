@@ -6,6 +6,7 @@ class jenkins::slave(
   $gitfullname = 'OpenStack Jenkins',
   $gitemail = 'jenkins@openstack.org',
   $gerrituser = 'jenkins',
+  $groups = [],
 ) {
 
   include haveged
@@ -19,6 +20,7 @@ class jenkins::slave(
       gitfullname => $gitfullname,
       gitemail    => $gitemail,
       gerrituser  => $gerrituser,
+      groups      => $groups,
     }
   }
 
