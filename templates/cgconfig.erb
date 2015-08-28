@@ -51,9 +51,13 @@ group jenkins/children {
         memory {
                 memory.soft_limit_in_bytes = <%= (@memorytotalbytes.to_f * 0.75).to_i %>;
                 memory.limit_in_bytes = <%= (@memorytotalbytes.to_f * 0.9).to_i %>;
-<% if (@operatingsystem == "Fedora") and (@operatingsystemrelease == "18") then
+<% if (@operatingsystem == "Fedora") and (@operatingsystemrelease == "18")  then
                 # Because of Red Hat bug 918951, swap management doesn't
                 # work in Fedora 18 but should be fixed in 19. %>
+<% elsif (@operatingsystem == "Ubuntu") and (versioncmp(@lsbdistrelease, '14.04') >= 0) then
+                # memory.memsw.limit_in_bytes is not supported on Trusty, setting this
+                # raises a 'setting not supported by kernel error'. Checked with upstream,
+                # they confirmed lack of support in several kernels, so we should skip it.
 <% else %>
                 memory.memsw.limit_in_bytes = <%= (@memorytotalbytes.to_f * 0.9).to_i %>;
 <% end %>
