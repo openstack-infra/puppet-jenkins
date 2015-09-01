@@ -2,7 +2,7 @@
 #
 class jenkins::cgroups {
 
-  include jenkins::params
+  include ::jenkins::params
 
   if ($::jenkins::params::cgroups_tools_package != '') {
     package { 'cgroups-tools':
