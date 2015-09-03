@@ -51,22 +51,22 @@ class jenkins::master(
     ssl      => true,
   }
   if ! defined(Httpd_mod['rewrite']) {
-    httpd_mod { 'rewrite':
+    httpd::mod { 'rewrite':
       ensure => present,
     }
   }
   if ! defined(Httpd_mod['proxy']) {
-    httpd_mod { 'proxy':
+    httpd::mod { 'proxy':
       ensure => present,
     }
   }
   if ! defined(Httpd_mod['proxy_http']) {
-    httpd_mod { 'proxy_http':
+    httpd::mod { 'proxy_http':
       ensure => present,
     }
   }
   if ! defined(Httpd_mod['headers']) {
-    httpd_mod { 'headers':
+    httpd::mod { 'headers':
       ensure => present,
     }
   }
