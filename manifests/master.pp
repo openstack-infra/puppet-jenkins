@@ -53,21 +53,25 @@ class jenkins::master(
   if ! defined(Httpd_mod['rewrite']) {
     httpd_mod { 'rewrite':
       ensure => present,
+      before => Service['httpd'],
     }
   }
   if ! defined(Httpd_mod['proxy']) {
     httpd_mod { 'proxy':
       ensure => present,
+      before => Service['httpd'],
     }
   }
   if ! defined(Httpd_mod['proxy_http']) {
     httpd_mod { 'proxy_http':
       ensure => present,
+      before => Service['httpd'],
     }
   }
   if ! defined(Httpd_mod['headers']) {
     httpd_mod { 'headers':
       ensure => present,
+      before => Service['httpd'],
     }
   }
 
