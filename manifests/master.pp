@@ -48,23 +48,23 @@ class jenkins::master(
     template => 'jenkins/jenkins.vhost.erb',
     ssl      => true,
   }
-  if ! defined(Httpd_mod['rewrite']) {
-    httpd_mod { 'rewrite':
+  if ! defined(Httpd::Mod['rewrite']) {
+    httpd::mod { 'rewrite':
       ensure => present,
     }
   }
-  if ! defined(Httpd_mod['proxy']) {
-    httpd_mod { 'proxy':
+  if ! defined(Httpd::Mod['proxy']) {
+    httpd::mod { 'proxy':
       ensure => present,
     }
   }
-  if ! defined(Httpd_mod['proxy_http']) {
-    httpd_mod { 'proxy_http':
+  if ! defined(Httpd::Mod['proxy_http']) {
+    httpd::mod { 'proxy_http':
       ensure => present,
     }
   }
-  if ! defined(Httpd_mod['headers']) {
-    httpd_mod { 'headers':
+  if ! defined(Httpd::Mod['headers']) {
+    httpd::mod { 'headers':
       ensure => present,
     }
   }
