@@ -1,11 +1,21 @@
 <VirtualHost <%= scope.lookupvar("::jenkins::master::vhost_name") %>:80>
              ServerAdmin <%= scope.lookupvar("::jenkins::master::serveradmin") %>
 
+             <% if @osfamily == "Debian" %>
              ErrorLog ${APACHE_LOG_DIR}/<%= scope.lookupvar("::jenkins::master::vhost_name") %>-error.log
+             <% end %>
+             <% if @osfamily == "RedHat" %>
+             ErrorLog /var/log/httpd/<%= scope.lookupvar("::jenkins::master::vhost_name") %>-error.log
+             <% end %>
 
              LogLevel warn
 
+             <% if @osfamily == "Debian" %>
              CustomLog ${APACHE_LOG_DIR}/<%= scope.lookupvar("::jenkins::master::vhost_name") %>-access.log combined
+             <% end %>
+             <% if @osfamily == "RedHat" %>
+             CustomLog /var/log/httpd/<%= scope.lookupvar("::jenkins::master::vhost_name") %>-access.log combined
+             <% end %>
 
              Redirect / https://<%= scope.lookupvar("::jenkins::master::vhost_name") %>/
 
@@ -15,11 +25,21 @@
              ServerName <%= scope.lookupvar("::jenkins::master::vhost_name") %>
              ServerAdmin <%= scope.lookupvar("::jenkins::master::serveradmin") %>
 
+             <% if @osfamily == "Debian" %>
              ErrorLog ${APACHE_LOG_DIR}/<%= scope.lookupvar("::jenkins::master::vhost_name") %>-ssl-error.log
+             <% end %>
+             <% if @osfamily == "RedHat" %>
+             ErrorLog /var/log/httpd/<%= scope.lookupvar("::jenkins::master::vhost_name") %>-ssl-error.log
+             <% end %>
 
              LogLevel warn
 
+             <% if @osfamily == "Debian" %>
              CustomLog ${APACHE_LOG_DIR}/<%= scope.lookupvar("::jenkins::master::vhost_name") %>-ssl-access.log combined
+             <% end %>
+             <% if @osfamily == "RedHat" %>
+             CustomLog /var/log/httpd/<%= scope.lookupvar("::jenkins::master::vhost_name") %>-ssl-access.log combined
+             <% end %>
 
              SSLEngine on
              SSLProtocol All -SSLv2 -SSLv3

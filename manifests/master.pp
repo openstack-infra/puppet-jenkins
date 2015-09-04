@@ -14,31 +14,96 @@ class jenkins::master(
   $jenkins_ssh_public_key = '',
 ) {
   include pip
-  include apt
   include ::httpd
 
-  package { 'openjdk-7-jre-headless':
-    ensure => present,
+  case $::osfamily {
+    'RedHat': {
+      yumrepo { "Jenkins":
+        baseurl => "http://pkg.jenkins-ci.org/redhat-stable/",
+        descr => "Jenkins",
+        enabled => 1,
+        gpgcheck => 0
+      }
+      package { 'jenkins':
+        ensure  => present,
+        require => yumrepo['Jenkins'],
+      }
+      $packages = [
+        'python-babel',
+        'java-1.8.0-openjdk',
+        'python-sqlalchemy',  # devstack-gate
+        'sqlite', # interact with devstack-gate DB
+      ]
+      # Needed to allow mod_proxy to forward on local Jenkins TCP port
+      exec { 'enable selinux httpd_can_network_connect':
+        path        => '/bin:/usr/bin:/usr/sbin',
+        command     => 'setsebool -P httpd_can_network_connect true',
+        onlyif      => 'getsebool httpd_can_network_connect | egrep "off$"'
+      }
+    }
+    'Debian': {
+      include apt
+      package { 'openjdk-7-jre-headless':
+        ensure => present,
+      }
+
+      package { 'openjdk-6-jre-headless':
+        ensure  => purged,
+        require => Package['openjdk-7-jre-headless'],
+      }
+
+      apt::source { 'jenkins':
+        location    => 'http://pkg.jenkins-ci.org/debian-stable',
+        release     => 'binary/',
+        repos       => '',
+        key         => {
+          'id'     => 'D50582E6',
+          'source' => 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key',
+        },
+        require     => [
+          Package['openjdk-7-jre-headless'],
+        ],
+        include_src => false,
+      }
+      if ! defined(Httpd_mod['rewrite']) {
+        httpd_mod { 'rewrite':
+          ensure => present,
+        }
+      }
+      if ! defined(Httpd_mod['proxy']) {
+        httpd_mod { 'proxy':
+          ensure => present,
+        }
+      }
+      if ! defined(Httpd_mod['proxy_http']) {
+        httpd_mod { 'proxy_http':
+          ensure => present,
+        }
+      }
+      if ! defined(Httpd_mod['headers']) {
+        httpd_mod { 'headers':
+          ensure => present,
+        }
+      }
+      $packages = [
+        'python-babel',
+        'python-sqlalchemy',  # devstack-gate
+        'ssl-cert',
+        'sqlite3', # interact with devstack-gate DB
+      ]
+      package { 'jenkins':
+        ensure  => present,
+        require => Apt::Source['jenkins'],
+      }
+      exec { 'update apt cache':
+        subscribe   => File['/etc/apt/sources.list.d/jenkins.list'],
+        refreshonly => true,
+        path        => '/bin:/usr/bin',
+        command     => 'apt-get update',
+      }
+    }
   }
 
-  package { 'openjdk-6-jre-headless':
-    ensure  => purged,
-    require => Package['openjdk-7-jre-headless'],
-  }
-
-  apt::source { 'jenkins':
-    location    => 'http://pkg.jenkins-ci.org/debian-stable',
-    release     => 'binary/',
-    repos       => '',
-    key         => {
-      'id'     => 'D50582E6',
-      'source' => 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key',
-    },
-    require     => [
-      Package['openjdk-7-jre-headless'],
-    ],
-    include_src => false,
-  }
 
   ::httpd::vhost { $vhost_name:
     port     => 443,
@@ -46,26 +111,6 @@ class jenkins::master(
     priority => '50',
     template => 'jenkins/jenkins.vhost.erb',
     ssl      => true,
-  }
-  if ! defined(Httpd_mod['rewrite']) {
-    httpd_mod { 'rewrite':
-      ensure => present,
-    }
-  }
-  if ! defined(Httpd_mod['proxy']) {
-    httpd_mod { 'proxy':
-      ensure => present,
-    }
-  }
-  if ! defined(Httpd_mod['proxy_http']) {
-    httpd_mod { 'proxy_http':
-      ensure => present,
-    }
-  }
-  if ! defined(Httpd_mod['headers']) {
-    httpd_mod { 'headers':
-      ensure => present,
-    }
   }
 
   if $ssl_cert_file_contents != '' {
@@ -99,27 +144,8 @@ class jenkins::master(
     }
   }
 
-  $packages = [
-    'python-babel',
-    'python-sqlalchemy',  # devstack-gate
-    'ssl-cert',
-    'sqlite3', # interact with devstack-gate DB
-  ]
-
   package { $packages:
     ensure => present,
-  }
-
-  package { 'jenkins':
-    ensure  => present,
-    require => Apt::Source['jenkins'],
-  }
-
-  exec { 'update apt cache':
-    subscribe   => File['/etc/apt/sources.list.d/jenkins.list'],
-    refreshonly => true,
-    path        => '/bin:/usr/bin',
-    command     => 'apt-get update',
   }
 
   file { '/etc/default/jenkins':
