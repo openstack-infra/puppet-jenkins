@@ -22,7 +22,7 @@ class jenkins::master(
   }
 
   package { 'openjdk-6-jre-headless':
-    ensure  => purged,
+    ensure  => absent,
     require => Package['openjdk-7-jre-headless'],
   }
 
