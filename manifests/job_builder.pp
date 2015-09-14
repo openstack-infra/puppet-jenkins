@@ -8,6 +8,7 @@ class jenkins::job_builder (
   $git_url = 'https://git.openstack.org/openstack-infra/jenkins-job-builder',
   $config_dir = '',
   $jenkins_jobs_update_timeout = '600',
+  $query_plugins_info = True,
   $extensions = [],
 ) {
   validate_array($extensions)
