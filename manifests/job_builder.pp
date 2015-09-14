@@ -58,7 +58,7 @@ class jenkins::job_builder (
   }
 
   exec { 'jenkins_jobs_update':
-    command     => 'jenkins-jobs update --delete-old /etc/jenkins_jobs/config',
+    command     => 'jenkins-jobs --conf /etc/jenkins_jobs/jenkins_jobs.ini update --delete-old /etc/jenkins_jobs/config',
     timeout     => $jenkins_jobs_update_timeout,
     path        => '/bin:/usr/bin:/usr/local/bin',
     refreshonly => true,
