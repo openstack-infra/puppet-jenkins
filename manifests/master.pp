@@ -13,8 +13,8 @@ class jenkins::master(
   $jenkins_ssh_private_key = '',
   $jenkins_ssh_public_key = '',
 ) {
-  include pip
-  include apt
+  include ::pip
+  include ::apt
   include ::httpd
 
   package { 'openjdk-7-jre-headless':
@@ -123,11 +123,11 @@ class jenkins::master(
   }
 
   file { '/etc/default/jenkins':
-    ensure  => present,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    source  => 'puppet:///modules/jenkins/jenkins.default',
+    ensure => present,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0644',
+    source => 'puppet:///modules/jenkins/jenkins.default',
   }
 
   file { '/var/lib/jenkins':
