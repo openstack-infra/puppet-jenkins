@@ -1,0 +1,10 @@
+Verified+2: Jenkins
+Code-Review+2: Clark Boylan <cboylan@sapwetik.org>
+Workflow+1: Clark Boylan <cboylan@sapwetik.org>
+Code-Review+2: Jeremy Stanley <fungi@yuggoth.org>
+Code-Review+1: Bruno Tavares <btavare@thoughtworks.com>
+Submitted-by: Jenkins
+Submitted-at: Wed, 16 Sep 2015 16:01:17 +0000
+Reviewed-on: https://review.openstack.org/224134
+Project: openstack-infra/puppet-jenkins
+Branch: refs/heads/master
