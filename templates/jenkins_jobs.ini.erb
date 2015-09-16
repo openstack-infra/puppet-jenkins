@@ -5,7 +5,7 @@ url=<%= @url %>
 
 <% @extensions.each do |extension| -%>
 ["<%= extension['name'] %>"]
-<% @extension['parameters'].each do |parameter| -%>
+<% extension['parameters'].each do |parameter| -%>
 <%= parameter['name'] %> = <%= parameter['value'] %>
 <% end -%>
 <% end -%>
