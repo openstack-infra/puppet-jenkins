@@ -3,7 +3,7 @@ user=<%= @username %>
 password=<%= @password %>
 url=<%= @url %>
 
-<% @extensions.each do |extension| -%>
+<% extensions.each do |extension| -%>
 ["<%= extension['name'] %>"]
 <% @extension['parameters'].each do |parameter| -%>
 <%= parameter['name'] %> = <%= parameter['value'] %>
