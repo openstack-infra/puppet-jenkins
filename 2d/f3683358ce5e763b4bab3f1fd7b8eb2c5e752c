@@ -1,0 +1,9 @@
+Code-Review+2: James E. Blair <corvus@inaugust.com>
+Verified+2: Jenkins
+Workflow+1: Clark Boylan <cboylan@sapwetik.org>
+Code-Review+2: Jeremy Stanley <fungi@yuggoth.org>
+Submitted-by: Jenkins
+Submitted-at: Mon, 05 Oct 2015 21:59:47 +0000
+Reviewed-on: https://review.openstack.org/231192
+Project: openstack-infra/puppet-jenkins
+Branch: refs/heads/master
