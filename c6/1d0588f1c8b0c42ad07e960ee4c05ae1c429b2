@@ -1,0 +1,13 @@
+Code-Review+2: James E. Blair <corvus@inaugust.com>
+Verified+2: Jenkins
+Workflow+1: Clark Boylan <cboylan@sapwetik.org>
+Code-Review+2: yolanda.robla <info@ysoft.biz>
+Code-Review+1: Khai Do <zaro0508@gmail.com>
+Code-Review+1: Ramy Asselin <ramy.asselin@hpe.com>
+Code-Review+1: Danilo Ramalho <dramalho@thoughtworks.com>
+Code-Review+1: Bruno Tavares <btavare@thoughtworks.com>
+Submitted-by: Jenkins
+Submitted-at: Mon, 05 Oct 2015 20:09:15 +0000
+Reviewed-on: https://review.openstack.org/222394
+Project: openstack-infra/puppet-jenkins
+Branch: refs/heads/master
