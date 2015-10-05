@@ -228,7 +228,7 @@ class jenkins::master(
   # Jenkins management utility scripts
   if ! defined(Package['python-jenkins']) {
     package { 'python-jenkins':
-      ensure   => present,
+      ensure   => latest,
       provider => 'pip',
     }
   }

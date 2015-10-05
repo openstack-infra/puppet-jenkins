@@ -22,7 +22,7 @@ class jenkins::job_builder (
 
   if ! defined(Package['python-jenkins']) {
     package { 'python-jenkins':
-      ensure   => present,
+      ensure   => latest,
       provider => 'pip',
     }
   }
