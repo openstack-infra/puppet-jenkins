@@ -224,4 +224,27 @@ class jenkins::master(
     group  => 'root',
     mode   => '0755',
   }
+
+  # Jenkins management utility scripts
+  if ! defined(Package['python-jenkins']) {
+    package { 'python-jenkins':
+      ensure   => present,
+      provider => 'pip',
+    }
+  }
+
+  file { '/usr/local/jenkins/bin':
+    ensure => directory,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+  }
+
+  file { '/usr/local/jenkins/bin/safe_jenkins_shutdown':
+    ensure => present,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+    source => 'puppet:///modules/jenkins/safe_jenkins_shutdown',
+  }
 }
