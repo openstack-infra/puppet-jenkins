@@ -39,7 +39,7 @@ def delete_offline_nodes(server, timeout):
         except jenkins.NotFoundException:
             pass
         except jenkins.JenkinsException as e:
-            if '[500]' in e.message:
+            if '[500]' in str(e):
                 pass
             else:
                 raise
@@ -78,7 +78,7 @@ def main():
         except jenkins.NotFoundException:
             pass
         except jenkins.JenkinsException as e:
-            if '[500]' in e.message:
+            if '[500]' in str(e):
                 pass
             else:
                 raise
