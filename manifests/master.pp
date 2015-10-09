@@ -12,6 +12,7 @@ class jenkins::master(
   $ssl_chain_file_contents = '', # If left empty puppet will not create file.
   $jenkins_ssh_private_key = '',
   $jenkins_ssh_public_key = '',
+  $jenkins_default = 'puppet:///modules/jenkins/jenkins.default',
 ) {
   include ::pip
   include ::apt
@@ -127,7 +128,7 @@ class jenkins::master(
     owner  => 'root',
     group  => 'root',
     mode   => '0644',
-    source => 'puppet:///modules/jenkins/jenkins.default',
+    source => $jenkins_default,
   }
 
   file { '/var/lib/jenkins':
