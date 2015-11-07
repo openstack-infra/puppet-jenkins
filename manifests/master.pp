@@ -219,6 +219,21 @@ class jenkins::master(
     require => File['/var/lib/jenkins/plugins/simple-theme-plugin'],
   }
 
+  file { '/var/lib/jenkins/init.groovy.d':
+    ensure  => directory,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    require => File['/var/lib/jenkins'],
+  }
+
+  file { '/var/lib/jenkins/init.groovy.d/cli-shutdown.groovy':
+    ensure  => present,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    source  => 'puppet:///modules/jenkins/cli-shutdown.groovy',
+    require => File['/var/lib/jenkins/init.groovy.d'],
+  }
+
   file { '/usr/local/jenkins':
     ensure => directory,
     owner  => 'root',
