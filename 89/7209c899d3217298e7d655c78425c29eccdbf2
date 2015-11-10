@@ -1,0 +1,12 @@
+Verified+2: Jenkins
+Code-Review+2: Spencer Krum <nibz@spencerkrum.com>
+Code-Review+2: Colleen Murphy <colleen@gazlene.net>
+Workflow+1: Colleen Murphy <colleen@gazlene.net>
+Code-Review+1: Nikki Heald <nicola@notnowlewis.com>
+Code-Review+1: Glauco Oliveira <gvinici@thoughtworks.com>
+Code-Review+1: Danilo Ramalho <dramalho@thoughtworks.com>
+Submitted-by: Jenkins
+Submitted-at: Tue, 10 Nov 2015 07:24:13 +0000
+Reviewed-on: https://review.openstack.org/218227
+Project: openstack-infra/puppet-jenkins
+Branch: refs/heads/master
