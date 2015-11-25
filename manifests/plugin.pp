@@ -20,6 +20,7 @@
 define jenkins::plugin(
   $version='latest',
   $pin=false,
+  $plugin_url=undef,
 ) {
   $plugin            = "${name}.hpi"
   $plugin_dir        = '/var/lib/jenkins/plugins'
@@ -29,6 +30,12 @@ define jenkins::plugin(
     $base_url = 'http://updates.jenkins-ci.org/latest'
   } else {
     $base_url = "http://updates.jenkins-ci.org/download/plugins/${name}/${version}"
+  }
+
+  if $plugin_url == undef {
+    $_plugin_url = "${base_url}/${plugin}"
+  } else {
+    $_plugin_url = $plugin_url
   }
 
   if (!defined(File[$plugin_dir])) {
@@ -57,7 +64,7 @@ define jenkins::plugin(
   }
 
   exec { "download-${name}" :
-    command => "wget --no-check-certificate ${base_url}/${plugin}",
+    command => "wget --no-check-certificate ${_plugin_url}",
     cwd     => $plugin_dir,
     require => File[$plugin_dir],
     path    => ['/usr/bin', '/usr/sbin',],
