@@ -1,4 +1,5 @@
-<VirtualHost <%= scope.lookupvar("::jenkins::master::vhost_name") %>:80>
+<VirtualHost *:80>
+             ServerName <%= scope.lookupvar("::jenkins::master::vhost_name") %>
              ServerAdmin <%= scope.lookupvar("::jenkins::master::serveradmin") %>
 
              ErrorLog ${APACHE_LOG_DIR}/<%= scope.lookupvar("::jenkins::master::vhost_name") %>-error.log
