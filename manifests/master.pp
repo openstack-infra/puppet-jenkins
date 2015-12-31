@@ -13,6 +13,7 @@ class jenkins::master(
   $jenkins_ssh_private_key = '',
   $jenkins_ssh_public_key = '',
   $jenkins_default = 'puppet:///modules/jenkins/jenkins.default',
+  $jenkins_java_heap_size = '12g', # For example 5g, 100m
 ) {
   include ::pip
   include ::apt
@@ -128,7 +129,7 @@ class jenkins::master(
     owner  => 'root',
     group  => 'root',
     mode   => '0644',
-    source => $jenkins_default,
+    source => template('jenkins/jenkins.default.erb'),
   }
 
   file { '/var/lib/jenkins':
