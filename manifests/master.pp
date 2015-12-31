@@ -12,7 +12,18 @@ class jenkins::master(
   $ssl_chain_file_contents = '', # If left empty puppet will not create file.
   $jenkins_ssh_private_key = '',
   $jenkins_ssh_public_key = '',
-  $jenkins_default = 'puppet:///modules/jenkins/jenkins.default',
+  $jenkins_name = 'jenkins',
+  $java_path = '/usr/bin/java',
+  $jenkins_java_heap_size = '12g', # For example 5g, 100m
+  $jenkins_java_log_conf = '/var/lib/jenkins/logger.conf',
+  $jenkins_user = 'jenkins',
+  $jenkins_war = '/usr/share/jenkins/jenkins.war',
+  $jenkins_home = '/var/lib/jenkins',
+  $run_standalone = true,
+  $jenkins_log_path = '/var/log/jenkins/',
+  $max_open_files = 8192,
+  $http_port = 8080,
+  $ajp_port = -1,
 ) {
   include ::pip
   include ::apt
@@ -123,12 +134,26 @@ class jenkins::master(
     command     => 'apt-get update',
   }
 
+  # Template uses:
+  # - $jenkins_name
+  # - $java_path
+  # - $jenkins_java_heap_size
+  # - $jenkins_java_log_conf
+  # - $jenkins_user
+  # - $jenkins_war
+  # - $jenkins_home
+  # - $run_standalone
+  # - $jenkins_log_path
+  # - $max_open_files
+  # - $http_port
+  # - $ajp_port
+
   file { '/etc/default/jenkins':
-    ensure => present,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0644',
-    source => $jenkins_default,
+    ensure  => present,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    content => template('jenkins/jenkins.default.erb'),
   }
 
   file { '/var/lib/jenkins':
