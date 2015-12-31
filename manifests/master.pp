@@ -13,6 +13,7 @@ class jenkins::master(
   $jenkins_ssh_private_key = '',
   $jenkins_ssh_public_key = '',
   $jenkins_default = 'puppet:///modules/jenkins/jenkins.default',
+  $jenkins_java_heap_size = '', # For example 5g, 100m
 ) {
   include ::pip
   include ::apt
@@ -129,6 +130,14 @@ class jenkins::master(
     group  => 'root',
     mode   => '0644',
     source => $jenkins_default,
+  }
+
+  if $jenkins_java_heap_size != '' {
+    exec { 'jenkin_master_jave_heap':
+      command => "/bin/sed -i '/-Xmx[[:digit:]]\+[a-z]/s/[[:digit:]]\+[a-z]/${jenkins_java_heap_size}/g' '/etc/default/jenkins'",
+      path    => '/bin:/usr/bin',
+      require => File['/etc/default/jenkins'],
+    }
   }
 
   file { '/var/lib/jenkins':
