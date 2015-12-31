@@ -1,5 +1,12 @@
 # == Class: jenkins::master
 #
+# This class will install and configure Jenkins master
+#
+# Setting configuration parameters is done by either setting
+# $jenkins_default to point to a customized file/template or by
+# setting the specific parameters in the class
+#
+
 class jenkins::master(
   $logo = '',
   $vhost_name = $::fqdn,
@@ -12,9 +19,13 @@ class jenkins::master(
   $ssl_chain_file_contents = '', # If left empty puppet will not create file.
   $jenkins_ssh_private_key = '',
   $jenkins_ssh_public_key = '',
-  $jenkins_default = 'puppet:///modules/jenkins/jenkins.default',
+  $jenkins_default = undef, # Can be a custom template
   $jenkins_version = 'present',
+  $java_args = '"-Xloggc:/var/log/jenkins/gc.log -XX:+PrintGCDetails -Xmx12g -Dorg.kohsuke.stapler.compression.CompressionFilter.disabled=true -Djava.util.logging.config.file=/var/lib/jenkins/logger.conf"',
   $jenkins_deb_url_base = 'http://pkg.jenkins.io/debian/binary',
+  $run_standalone = true,
+  $max_open_files = 8192,
+  $http_port = 8080,
 ) {
   include ::pip
   include ::apt
@@ -156,12 +167,27 @@ class jenkins::master(
     command     => 'apt-get update',
   }
 
-  file { '/etc/default/jenkins':
-    ensure => present,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0644',
-    source => $jenkins_default,
+  # Template uses:
+  # - $java_args
+  # - $run_standalone
+  # - $max_open_files
+  # - $http_port
+  if ! $jenkins_default {
+    file { '/etc/default/jenkins':
+      ensure  => present,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+      content => template('jenkins/jenkins.default.erb'),
+    }
+  } else {
+    file { '/etc/default/jenkins':
+      ensure => present,
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0644',
+      source => $jenkins_default
+    }
   }
 
   file { '/var/lib/jenkins':
