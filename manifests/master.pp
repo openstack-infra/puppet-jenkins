@@ -12,7 +12,8 @@ class jenkins::master(
   $ssl_chain_file_contents = '', # If left empty puppet will not create file.
   $jenkins_ssh_private_key = '',
   $jenkins_ssh_public_key = '',
-  $jenkins_default = 'puppet:///modules/jenkins/jenkins.default',
+  $jenkins_default = '',
+  $jenkins_java_heap_size = '12g', # For example 5g, 100m
 ) {
   include ::pip
   include ::apt
@@ -123,12 +124,23 @@ class jenkins::master(
     command     => 'apt-get update',
   }
 
-  file { '/etc/default/jenkins':
-    ensure => present,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0644',
-    source => $jenkins_default,
+  if $jenkins_default != '' {
+    file { '/etc/default/jenkins':
+      ensure => present,
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0644',
+      source => $jenkins_default,
+    }
+  }
+  else {
+    file { '/etc/default/jenkins':
+      ensure  => present,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+      content => template('jenkins/jenkins.default.erb'),
+    }
   }
 
   file { '/var/lib/jenkins':
