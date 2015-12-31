@@ -1,3 +1,15 @@
+# Install and configures Jenkins master
+#
+# /etc/default/jenkins captures configuration parameters for
+# launching Jenkins. For example: JENKINS_HOME, JAVA_ARGS etc.
+# Setting configuration parameters is done by either setting
+# $jenkins_default to point to a customized file/template or by
+# setting the following parameters in the class:
+# - java_args - arguments to pass to java
+# - run_standalone - false if you don't want Hudson to run by itself
+# - max_open_files - workaround hitting OS's max open file handles
+# - http_port - port for HTTP connector
+#
 # == Class: jenkins::master
 #
 class jenkins::master(
@@ -12,7 +24,11 @@ class jenkins::master(
   $ssl_chain_file_contents = '', # If left empty puppet will not create file.
   $jenkins_ssh_private_key = '',
   $jenkins_ssh_public_key = '',
-  $jenkins_default = 'puppet:///modules/jenkins/jenkins.default',
+  $jenkins_default = '', # Can be a custom template
+  $java_args = '"-Xloggc:/var/log/jenkins/gc.log -XX:+PrintGCDetails -Xmx12g -Dorg.kohsuke.stapler.compression.CompressionFilter.disabled=true -Djava.util.logging.config.file=/var/lib/jenkins/logger.conf"',
+  $run_standalone = true,
+  $max_open_files = 8192,
+  $http_port = 8080,
 ) {
   include ::pip
   include ::apt
@@ -123,12 +139,29 @@ class jenkins::master(
     command     => 'apt-get update',
   }
 
-  file { '/etc/default/jenkins':
-    ensure => present,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0644',
-    source => $jenkins_default,
+  # Template uses:
+  # - $java_args
+  # - $run_standalone
+  # - $max_open_files
+  # - $http_port
+
+  if $jenkins_default != '' {
+    file { '/etc/default/jenkins':
+      ensure  => present,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+      content => template($jenkins_default),
+    }
+  }
+  else {
+    file { '/etc/default/jenkins':
+      ensure  => present,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+      content => template('jenkins/jenkins.default.erb'),
+    }
   }
 
   file { '/var/lib/jenkins':
