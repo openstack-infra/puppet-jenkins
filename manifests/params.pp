@@ -39,8 +39,8 @@ class jenkins::params {
       $ccache_package = 'ccache'
       $python_netaddr_package = 'python-netaddr'
       $maven_package = 'maven2'
-      $ruby1_9_1_package = 'ruby1.9.1'
-      $ruby1_9_1_dev_package = 'ruby1.9.1-dev'
+      $ruby_package = 'ruby1.9.1'
+      $ruby_dev_package = 'ruby1.9.1-dev'
       $cgroups_package = 'cgroup-bin'
       $cgroups_tools_package = ''
       $cgconfig_require = [

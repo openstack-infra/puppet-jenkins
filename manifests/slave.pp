@@ -66,11 +66,11 @@ class jenkins::slave(
         require => Package[$::jenkins::params::jdk_package],
       }
 
-      package { $::jenkins::params::ruby1_9_1_package:
+      package { $::jenkins::params::ruby_package:
         ensure => present,
       }
 
-      package { $::jenkins::params::ruby1_9_1_dev_package:
+      package { $::jenkins::params::ruby_dev_package:
         ensure => present,
       }
 
