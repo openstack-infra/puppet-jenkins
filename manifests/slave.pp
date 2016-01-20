@@ -6,11 +6,16 @@ class jenkins::slave(
   $gitfullname = 'OpenStack Jenkins',
   $gitemail = 'jenkins@openstack.org',
   $gerrituser = 'jenkins',
-) {
+  $jdk_package = $::jenkins::params::jdk_package,
+  $ccache_package =  $::jenkins::params::ccache_package,
+  $python_netaddr_package = $::jenkins::params::python_netaddr_package,
+  $maven_package = $::jenkins::params::maven_package,
+  $ruby_package = $::jenkins::params::ruby_package,
+  $ruby_dev_package = $::jenkins::params::ruby_dev_package,
+) inherits ::jenkins::params {
 
   include ::haveged
   include ::pip
-  include ::jenkins::params
 
   if ($user == true) {
     class { '::jenkins::jenkinsuser':
@@ -26,9 +31,9 @@ class jenkins::slave(
 
   # Packages that all jenkins slaves need
   $packages = [
-    $::jenkins::params::jdk_package, # jdk for building java jobs
-    $::jenkins::params::ccache_package,
-    $::jenkins::params::python_netaddr_package, # Needed for devstack address_in_net()
+    $jdk_package, # jdk for building java jobs
+    $ccache_package,
+    $python_netaddr_package, # Needed for devstack address_in_net()
   ]
 
   file { '/etc/apt/sources.list.d/cloudarchive.list':
@@ -61,22 +66,22 @@ class jenkins::slave(
         ensure => present,
       }
 
-      package { $::jenkins::params::maven_package:
+      package { $maven_package:
         ensure  => present,
-        require => Package[$::jenkins::params::jdk_package],
+        require => Package[$jdk_package],
       }
 
-      package { $::jenkins::params::ruby_package:
+      package { $ruby_package:
         ensure => present,
       }
 
-      package { $::jenkins::params::ruby_dev_package:
+      package { $ruby_dev_package:
         ensure => present,
       }
 
       package { 'openjdk-6-jre-headless':
         ensure  => purged,
-        require => Package[$::jenkins::params::jdk_package],
+        require => Package[$jdk_package],
       }
 
       exec { 'update-java-alternatives':
