@@ -45,6 +45,7 @@ class jenkins::slave(
       exec { 'yum Group Install':
         unless  => '/usr/bin/yum grouplist "Development tools" | /bin/grep "^Installed [Gg]roups"',
         command => '/usr/bin/yum -y groupinstall "Development tools"',
+        timeout => 1800,
       }
 
       if ($::operatingsystem != 'Fedora') {
