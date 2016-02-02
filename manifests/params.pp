@@ -39,8 +39,6 @@ class jenkins::params {
       $ccache_package = 'ccache'
       $python_netaddr_package = 'python-netaddr'
       $maven_package = 'maven2'
-      $ruby1_9_1_package = 'ruby1.9.1'
-      $ruby1_9_1_dev_package = 'ruby1.9.1-dev'
       $cgroups_package = 'cgroup-bin'
       $cgroups_tools_package = ''
       $cgconfig_require = [
@@ -51,6 +49,16 @@ class jenkins::params {
         Package['cgroups'],
         File['/etc/init/cgred.conf'],
       ]
+      # ruby packages
+      # ruby1.9.1 is not present in Debian Jessie, use ruby instead
+      if ($::operatingsystem == 'Debian') {
+        $ruby_package = 'ruby'
+        $ruby_dev_package = 'ruby-dev'
+      }
+      else {
+        $ruby_package = 'ruby1.9.1'
+        $ruby_dev_package = 'ruby1.9.1-dev'
+      }
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} The 'jenkins' module only supports osfamily Debian or RedHat (slaves only).")
