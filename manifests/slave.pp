@@ -66,13 +66,9 @@ class jenkins::slave(
         require => Package[$::jenkins::params::jdk_package],
       }
 
-      package { $::jenkins::params::ruby1_9_1_package:
-        ensure => present,
-      }
-
-      package { $::jenkins::params::ruby1_9_1_dev_package:
-        ensure => present,
-      }
+      # install ruby packages
+      $ruby_packages = [ $::jenkins::params::ruby_package, $::jenkins::params::ruby_dev_package ]
+      ensure_resource('package', $ruby_packages, {'ensure' => 'present'})
 
       package { 'openjdk-6-jre-headless':
         ensure  => purged,
