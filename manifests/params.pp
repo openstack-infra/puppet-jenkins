@@ -51,7 +51,7 @@ class jenkins::params {
       ]
       # ruby packages
       # ruby1.9.1 is not present in Debian Jessie, use ruby instead
-      if ($::operatingsystem == 'Debian') {
+      if ($::operatingsystem == 'Debian' or $::lsbdistcodename == 'xenial') {
         $ruby_package = 'ruby'
         $ruby_dev_package = 'ruby-dev'
       }
