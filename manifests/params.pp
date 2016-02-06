@@ -38,7 +38,6 @@ class jenkins::params {
       $jdk_package = 'openjdk-7-jdk'
       $ccache_package = 'ccache'
       $python_netaddr_package = 'python-netaddr'
-      $maven_package = 'maven2'
       $cgroups_package = 'cgroup-bin'
       $cgroups_tools_package = ''
       $cgconfig_require = [
@@ -49,6 +48,12 @@ class jenkins::params {
         Package['cgroups'],
         File['/etc/init/cgred.conf'],
       ]
+      if ($::lsbdistcodename == 'xenial') {
+        $maven_package = 'maven'
+      }
+      else {
+        $maven_package = 'maven2'
+      }
       # ruby packages
       # ruby1.9.1 is not present in Debian Jessie, use ruby instead
       if ($::operatingsystem == 'Debian' or $::lsbdistcodename == 'xenial') {
