@@ -1,0 +1,10 @@
+Code-Review+2: Colleen Murphy <colleen@gazlene.net>
+Code-Review+2: Monty Taylor <mordred@inaugust.com>
+Workflow+1: Monty Taylor <mordred@inaugust.com>
+Code-Review+1: Venkata Mahesh Chinta <venkata.mahesh.chinta@ericsson.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Wed, 02 Mar 2016 21:13:08 +0000
+Reviewed-on: https://review.openstack.org/274087
+Project: openstack-infra/puppet-jenkins
+Branch: refs/heads/master
