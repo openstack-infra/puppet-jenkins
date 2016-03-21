@@ -18,9 +18,9 @@
 #
 
 define jenkins::plugin(
-  $version='latest',
-  $pin=false,
-  $plugin_url=undef,
+  $pin        = false,
+  $plugin_url = undef,
+  $version    = 'latest',
 ) {
   $plugin            = "${name}.hpi"
   $plugin_dir        = '/var/lib/jenkins/plugins'
