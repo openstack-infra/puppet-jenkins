@@ -2,10 +2,10 @@
 #
 class jenkins::jenkinsuser(
   $ssh_key,
-  $ensure = present,
+  $ensure      = present,
+  $gitemail    = 'jenkins@openstack.org',
   $gitfullname = 'OpenStack Jenkins',
-  $gitemail = 'jenkins@openstack.org',
-  $gerrituser = 'jenkins',
+  $gerrituser  = 'jenkins',
 ) {
 
   group { 'jenkins':
