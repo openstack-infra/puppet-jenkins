@@ -2,10 +2,10 @@
 #
 class jenkins::slave(
   $ssh_key,
-  $user = true,
+  $gerrituser  = 'jenkins',
+  $gitemail    = 'jenkins@openstack.org',
   $gitfullname = 'OpenStack Jenkins',
-  $gitemail = 'jenkins@openstack.org',
-  $gerrituser = 'jenkins',
+  $user        = true,
 ) {
 
   include ::haveged
