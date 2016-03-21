@@ -1,16 +1,16 @@
 # == Class: jenkins::job_builder
 #
 class jenkins::job_builder (
-  $url,
-  $username,
   $password,
-  $git_revision = 'master',
-  $git_url = 'https://git.openstack.org/openstack-infra/jenkins-job-builder',
-  $config_dir = '',
+  $username,
+  $url,
+  $config_dir                  = '',
+  $extensions                  = [],
+  $git_revision                = 'master',
+  $git_url                     = 'https://git.openstack.org/openstack-infra/jenkins-job-builder',
   $jenkins_jobs_update_timeout = '600',
-  $query_plugins_info = True,
-  $extensions = [],
-  $manage_user = false,
+  $manage_user                 = false,
+  $query_plugins_info          = true,
 ) {
   validate_array($extensions)
 
