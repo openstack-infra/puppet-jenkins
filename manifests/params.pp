@@ -38,7 +38,11 @@ class jenkins::params {
       $jdk_package = 'openjdk-7-jdk'
       $ccache_package = 'ccache'
       $python_netaddr_package = 'python-netaddr'
-      $maven_package = 'maven2'
+      if ($::operatingsystem == 'Ubuntu') and ($::operatingsystemrelease >= '16.04') {
+        $maven_package = 'maven'
+      } else {
+        $maven_package = 'maven2'
+      }
       $cgroups_package = 'cgroup-bin'
       $cgroups_tools_package = ''
       $cgconfig_require = [
