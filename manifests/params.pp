@@ -35,12 +35,13 @@ class jenkins::params {
     }
     'Debian': {
       # common packages
-      $jdk_package = 'openjdk-7-jdk'
       $ccache_package = 'ccache'
       $python_netaddr_package = 'python-netaddr'
       if ($::operatingsystem == 'Ubuntu') and ($::operatingsystemrelease >= '16.04') {
+        $jdk_package = 'openjdk-8-jdk'
         $maven_package = 'maven'
       } else {
+        $jdk_package = 'openjdk-7-jdk'
         $maven_package = 'maven2'
       }
       $cgroups_package = 'cgroup-bin'
