@@ -80,10 +80,13 @@ class jenkins::slave(
         require => Package[$::jenkins::params::jdk_package],
       }
 
-      exec { 'update-java-alternatives':
-        unless  => "/bin/ls -l /etc/alternatives/java | /bin/grep java-7-openjdk-${::dpkg_arch}",
-        command => "/usr/sbin/update-java-alternatives --set java-1.7.0-openjdk-${::dpkg_arch}",
-        require => Anchor['jenkins::slave::update-java-alternatives']
+      # NOTE(pabelanger): We use openjdk-8-jre on ubuntu-xenial
+      if ($::operatingsystem == 'Ubuntu') and ($::operatingsystemrelease < '16.04') {
+        exec { 'update-java-alternatives':
+          unless  => "/bin/ls -l /etc/alternatives/java | /bin/grep java-7-openjdk-${::dpkg_arch}",
+          command => "/usr/sbin/update-java-alternatives --set java-1.7.0-openjdk-${::dpkg_arch}",
+          require => Anchor['jenkins::slave::update-java-alternatives']
+        }
       }
     }
     default: {
