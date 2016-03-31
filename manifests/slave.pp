@@ -22,8 +22,6 @@ class jenkins::slave(
     }
   }
 
-  anchor { 'jenkins::slave::update-java-alternatives': }
-
   # Packages that all jenkins slaves need
   $packages = [
     $::jenkins::params::jdk_package, # jdk for building java jobs
@@ -35,9 +33,16 @@ class jenkins::slave(
     ensure => absent,
   }
 
-  package { $packages:
-    ensure => present,
-    before => Anchor['jenkins::slave::update-java-alternatives']
+  if ($::operatingsystem == 'Ubuntu' and versioncmp($::operatingsystemrelease, '16.04') >= 0)
+    package { $packages:
+      ensure => present,
+    }
+  } else {
+    anchor { 'jenkins::slave::update-java-alternatives': }
+    package { $packages:
+      ensure => present,
+      before => Anchor['jenkins::slave::update-java-alternatives']
+    }
   }
 
   case $::osfamily {
