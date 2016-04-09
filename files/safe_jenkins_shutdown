@@ -24,7 +24,8 @@ def delete_offline_nodes(server, timeout):
     end = start + timeout
     while True:
         nodes = server.get_nodes()
-        offline_nodes = [node for node in nodes if node['offline']]
+        offline_nodes = [node for node in nodes if node['offline'] and
+                         node['name'] != 'master']
         if not offline_nodes:
             # We have converged to no offline nodes state
             break
