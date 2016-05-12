@@ -51,7 +51,7 @@ class jenkins::jenkinsuser(
     ensure  => directory,
     owner   => 'jenkins',
     group   => 'jenkins',
-    mode    => '0600',
+    mode    => '0700',
     require => File['/home/jenkins'],
   }
 
