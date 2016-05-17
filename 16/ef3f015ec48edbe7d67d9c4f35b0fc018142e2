@@ -1,0 +1,11 @@
+Code-Review+1: Nikolay Mahotkin <nmakhotkin@mirantis.com>
+Code-Review+1: Sergey Kraynev <skraynev@mirantis.com>
+Code-Review+2: yolanda.robla <yolanda.robla-mota@hpe.com>
+Code-Review+2: Colleen Murphy <colleen@gazlene.net>
+Workflow+1: Colleen Murphy <colleen@gazlene.net>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Tue, 17 May 2016 11:39:21 +0000
+Reviewed-on: https://review.openstack.org/315479
+Project: openstack-infra/puppet-jenkins
+Branch: refs/heads/master
