@@ -3,7 +3,9 @@
 class jenkins::master(
   $logo = '',
   $vhost_name = $::fqdn,
+  $apache_name = undef,
   $serveradmin = "webmaster@${::fqdn}",
+  $servername = undef,
   $ssl_cert_file = '/etc/ssl/certs/ssl-cert-snakeoil.pem',
   $ssl_key_file = '/etc/ssl/private/ssl-cert-snakeoil.key',
   $ssl_chain_file = '',
@@ -41,7 +43,11 @@ class jenkins::master(
     include_src => false,
   }
 
-  ::httpd::vhost { $vhost_name:
+  # prefer $apache_name and $servername, but maintain backwards compatibility
+  $real_apache_name = $apache_name || $vhost_name
+  $real_servername = $servername || $vhost_name
+
+  ::httpd::vhost { $real_apache_name:
     port     => 443,
     docroot  => 'MEANINGLESS ARGUMENT',
     priority => '50',
@@ -75,7 +81,7 @@ class jenkins::master(
       group   => 'root',
       mode    => '0640',
       content => $ssl_cert_file_contents,
-      before  => Httpd::Vhost[$vhost_name],
+      before  => Httpd::Vhost[$real_apache_name],
     }
   }
 
@@ -86,7 +92,7 @@ class jenkins::master(
       mode    => '0640',
       content => $ssl_key_file_contents,
       require => Package['ssl-cert'],
-      before  => Httpd::Vhost[$vhost_name],
+      before  => Httpd::Vhost[$real_apache_name],
     }
   }
 
@@ -96,7 +102,7 @@ class jenkins::master(
       group   => 'root',
       mode    => '0640',
       content => $ssl_chain_file_contents,
-      before  => Httpd::Vhost[$vhost_name],
+      before  => Httpd::Vhost[$real_apache_name],
     }
   }
 
