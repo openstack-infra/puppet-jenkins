@@ -55,14 +55,10 @@ class jenkins::jenkinsuser(
     require => File['/home/jenkins'],
   }
 
-  # cleanup old content in directory
-  file { '/home/jenkins/.ssh/authorized_keys':
-    ensure  => 'file',
-    owner   => 'jenkins',
-    group   => 'jenkins',
-    mode    => '0600',
-    content => template('jenkins/authorized_keys.erb'),
-    require => File['/home/jenkins/.ssh'],
+  ssh_authorized_key { 'jenkins@openstack.org':
+    user => 'jenkins',
+    type => 'ssh-rsa',
+    key  => $ssh_key,
   }
 
   #NOTE: not all distributions have default bash files in /etc/skel
