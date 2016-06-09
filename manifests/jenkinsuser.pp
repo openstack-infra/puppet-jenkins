@@ -55,6 +55,12 @@ class jenkins::jenkinsuser(
     require => File['/home/jenkins'],
   }
 
+  ssh_authorized_key { 'jenkins@openstack.org':
+    user => 'jenkins',
+    type => 'ssh-rsa',
+    key  => $ssh_key,
+  }
+
   # cleanup old content in directory
   file { '/home/jenkins/.ssh/authorized_keys':
     ensure  => 'file',
