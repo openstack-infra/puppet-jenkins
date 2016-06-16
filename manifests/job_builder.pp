@@ -25,7 +25,7 @@ class jenkins::job_builder (
   if ! defined(Package['python-jenkins']) {
     package { 'python-jenkins':
       ensure   => latest,
-      provider => 'pip',
+      provider => openstack_pip,
     }
   }
 

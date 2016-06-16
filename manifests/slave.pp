@@ -95,14 +95,14 @@ class jenkins::slave(
 
   package { 'tox':
     ensure   => 'latest',
-    provider => pip,
+    provider => openstack_pip,
     require  => Class[pip],
   }
 
   # TODO(fungi): switch jobs to use /usr/git-review-env/bin/git-review
   package { 'git-review':
     ensure   => '1.25.0',
-    provider => pip,
+    provider => openstack_pip,
     require  => Class[pip],
   }
 

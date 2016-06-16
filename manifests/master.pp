@@ -245,7 +245,7 @@ class jenkins::master(
   if ! defined(Package['python-jenkins']) {
     package { 'python-jenkins':
       ensure   => latest,
-      provider => 'pip',
+      provider => openstack_pip,
     }
   }
 
