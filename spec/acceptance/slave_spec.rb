@@ -65,7 +65,6 @@ describe 'puppet-jenkins slave module', :if => ['debian', 'ubuntu'].include?(os[
     jenkins_user_files = [
       file('/home/jenkins/.bash_logout'),
       file('/home/jenkins/.bashrc'),
-      file('/home/jenkins/.gnupg/pubring.gpg'),
       file('/home/jenkins/.profile'),
       file('/home/jenkins/.ssh/authorized_keys'),
     ]

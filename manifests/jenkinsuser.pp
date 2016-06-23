@@ -109,23 +109,6 @@ class jenkins::jenkinsuser(
     source  => 'puppet:///modules/jenkins/ssh_config',
   }
 
-  file { '/home/jenkins/.gnupg':
-    ensure  => directory,
-    owner   => 'jenkins',
-    group   => 'jenkins',
-    mode    => '0700',
-    require => File['/home/jenkins'],
-  }
-
-  file { '/home/jenkins/.gnupg/pubring.gpg':
-    ensure  => present,
-    owner   => 'jenkins',
-    group   => 'jenkins',
-    mode    => '0600',
-    require => File['/home/jenkins/.gnupg'],
-    source  => 'puppet:///modules/jenkins/pubring.gpg',
-  }
-
   file { '/home/jenkins/.config':
     ensure  => directory,
     owner   => 'jenkins',
