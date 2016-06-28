@@ -33,15 +33,14 @@ class jenkins::cgroups {
     source  => 'puppet:///modules/jenkins/cgroups/cgrules.conf',
   }
 
-  # Starting with Ubuntu Quantal (12.10) cgroup-bin dropped its upstart jobs.
   if $::osfamily == 'Debian' {
-
-    if $::operatingsystem == 'Ubuntu' and versioncmp($::operatingsystemrelease, '12.10') >= 0 {
-
-      file { '/etc/init/cgconfig.conf':
+    # 14.04 and below is using upstart.
+    if $::operatingsystem == 'Ubuntu' and versioncmp($::operatingsystemrelease, '14.04') <= 0 {
+      file { 'cgconfig.service':
         ensure  => present,
         replace => true,
         owner   => 'root',
+        path    => '/etc/init/cgconfig.conf',
         group   => 'root',
         mode    => '0644',
         source  => 'puppet:///modules/jenkins/cgroups/upstart_cgconfig',
@@ -52,10 +51,11 @@ class jenkins::cgroups {
         target => '/lib/init/upstart-job',
       }
 
-      file { '/etc/init/cgred.conf':
+      file { 'cgred.service':
         ensure  => present,
         replace => true,
         owner   => 'root',
+        path    => '/etc/init/cgred.conf',
         group   => 'root',
         mode    => '0644',
         source  => 'puppet:///modules/jenkins/cgroups/upstart_cgred',
@@ -65,19 +65,27 @@ class jenkins::cgroups {
         ensure => link,
         target => '/lib/init/upstart-job',
       }
-
     } else {
-
-      file { '/etc/init/cgconfig.conf':
+      file { 'cgred.service':
         ensure  => present,
+        replace => true,
+        owner   => 'root',
+        path    => '/etc/systemd/system/cgred.service',
+        group   => 'root',
+        mode    => '0644',
+        source  => 'puppet:///modules/jenkins/cgroups/cgred.service',
       }
 
-      file { '/etc/init/cgred.conf':
+      file { 'cgconfig.service':
         ensure  => present,
+        replace => true,
+        owner   => 'root',
+        path    => '/etc/systemd/system/cgconfig.service',
+        group   => 'root',
+        mode    => '0644',
+        source  => 'puppet:///modules/jenkins/cgroups/cgconfig.service',
       }
-
     }
-
   }
 
   service { 'cgconfig':

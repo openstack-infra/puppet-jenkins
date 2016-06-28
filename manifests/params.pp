@@ -48,11 +48,11 @@ class jenkins::params {
       $cgroups_tools_package = ''
       $cgconfig_require = [
         Package['cgroups'],
-        File['/etc/init/cgconfig.conf'],
+        File['cgconfig.service'],
       ]
       $cgred_require = [
         Package['cgroups'],
-        File['/etc/init/cgred.conf'],
+        File['cgred.service'],
       ]
       # ruby packages
       # ruby1.9.1 is not present in Debian Jessie, use ruby instead
