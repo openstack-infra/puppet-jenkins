@@ -6,6 +6,7 @@ class jenkins::jenkinsuser(
   $gitfullname = 'OpenStack Jenkins',
   $gitemail = 'jenkins@openstack.org',
   $gerrituser = 'jenkins',
+  $gerritkey = undef,
 ) {
 
   group { 'jenkins':
@@ -63,6 +64,17 @@ class jenkins::jenkinsuser(
     mode    => '0600',
     content => template('jenkins/authorized_keys.erb'),
     require => File['/home/jenkins/.ssh'],
+  }
+
+  if $gerritkey != undef {
+    file { '/home/jenkins/.ssh/id_rsa':
+      ensure  => 'file',
+      owner   => 'jenkins',
+      group   => 'jenkins',
+      mode    => '0600',
+      content => $gerritkey,
+      require => File['/home/jenkins/.ssh'],
+    }
   }
 
   #NOTE: not all distributions have default bash files in /etc/skel
