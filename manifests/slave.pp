@@ -6,6 +6,8 @@ class jenkins::slave(
   $gitfullname = 'OpenStack Jenkins',
   $gitemail = 'jenkins@openstack.org',
   $gerrituser = 'jenkins',
+  $gerritkeytype = 'rsa',
+  $gerritkey = undef,
 ) {
 
   include ::haveged
@@ -14,11 +16,13 @@ class jenkins::slave(
 
   if ($user == true) {
     class { '::jenkins::jenkinsuser':
-      ensure      => present,
-      ssh_key     => $ssh_key,
-      gitfullname => $gitfullname,
-      gitemail    => $gitemail,
-      gerrituser  => $gerrituser,
+      ensure        => present,
+      ssh_key       => $ssh_key,
+      gitfullname   => $gitfullname,
+      gitemail      => $gitemail,
+      gerrituser    => $gerrituser,
+      gerritkeytype => $gerritkeytype,
+      gerritkey     => $gerritkey,
     }
   }
 
