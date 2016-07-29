@@ -5,6 +5,7 @@ class jenkins::jenkinsuser(
   $ensure = present,
   $gitfullname = 'OpenStack Jenkins',
   $gitemail = 'jenkins@openstack.org',
+  $gitpgpkey = 'jenkins@openstack.org',
   $gerrituser = 'jenkins',
   $gerritkeytype = 'rsa',
   $gerritkey = undef,
