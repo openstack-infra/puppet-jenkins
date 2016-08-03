@@ -2,6 +2,7 @@
 #
 class jenkins::slave(
   $ssh_key,
+  $ssh_known_hosts = undef,
   $user = true,
   $gitfullname = 'OpenStack Jenkins',
   $gitemail = 'jenkins@openstack.org',
@@ -16,13 +17,14 @@ class jenkins::slave(
 
   if ($user == true) {
     class { '::jenkins::jenkinsuser':
-      ensure        => present,
-      ssh_key       => $ssh_key,
-      gitfullname   => $gitfullname,
-      gitemail      => $gitemail,
-      gerrituser    => $gerrituser,
-      gerritkeytype => $gerritkeytype,
-      gerritkey     => $gerritkey,
+      ensure          => present,
+      ssh_key         => $ssh_key,
+      ssh_known_hosts => $ssh_known_hosts,
+      gitfullname     => $gitfullname,
+      gitemail        => $gitemail,
+      gerrituser      => $gerrituser,
+      gerritkeytype   => $gerritkeytype,
+      gerritkey       => $gerritkey,
     }
   }
 

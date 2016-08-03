@@ -2,6 +2,7 @@
 #
 class jenkins::jenkinsuser(
   $ssh_key,
+  $ssh_known_hosts = undef,
   $ensure = present,
   $gitfullname = 'OpenStack Jenkins',
   $gitemail = 'jenkins@openstack.org',
@@ -78,6 +79,17 @@ class jenkins::jenkinsuser(
     }
   }
 
+  if $ssh_known_hosts != undef {
+    file { '/home/jenkins/.ssh/known_hosts':
+      ensure  => 'file',
+      owner   => 'jenkins',
+      group   => 'jenkins',
+      mode    => '0600',
+      content => $ssh_known_hosts,
+      require => File['/home/jenkins/.ssh'],
+    }
+  }
+
   #NOTE: not all distributions have default bash files in /etc/skel
   if ($::osfamily == 'Debian') {
 
@@ -119,7 +131,7 @@ class jenkins::jenkinsuser(
     group   => 'jenkins',
     mode    => '0640',
     require => File['/home/jenkins/.ssh'],
-    source  => 'puppet:///modules/jenkins/ssh_config',
+    content => template('jenkins/ssh_config.erb'),
   }
 
   file { '/home/jenkins/.config':
