@@ -1,0 +1,9 @@
+Code-Review+2: Colleen Murphy <colleen@gazlene.net>
+Code-Review+2: yolanda.robla <yroblamo@redhat.com>
+Workflow+1: yolanda.robla <yroblamo@redhat.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Fri, 12 Aug 2016 08:15:36 +0000
+Reviewed-on: https://review.openstack.org/354086
+Project: openstack-infra/puppet-jenkins
+Branch: refs/heads/master
