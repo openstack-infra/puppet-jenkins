@@ -13,6 +13,7 @@ class jenkins::master(
   $jenkins_ssh_private_key = '',
   $jenkins_ssh_public_key = '',
   $jenkins_default = 'puppet:///modules/jenkins/jenkins.default',
+  $jenkins_version = present,
 ) {
   include ::pip
   include ::apt
@@ -28,12 +29,12 @@ class jenkins::master(
   }
 
   apt::source { 'jenkins':
-    location    => 'http://pkg.jenkins-ci.org/debian-stable',
+    location    => 'http://pkg.jenkins.io/debian-stable',
     release     => 'binary/',
     repos       => '',
     key         => {
       'id'     => 'D50582E6',
-      'source' => 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key',
+      'source' => 'http://pkg.jenkins.io/debian-stable/jenkins.io.key',
     },
     require     => [
       Package['openjdk-7-jre-headless'],
@@ -112,7 +113,7 @@ class jenkins::master(
   }
 
   package { 'jenkins':
-    ensure  => present,
+    ensure  => $jenkins_version,
     require => Apt::Source['jenkins'],
   }
 
