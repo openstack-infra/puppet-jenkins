@@ -13,7 +13,8 @@ class jenkins::master(
   $jenkins_ssh_private_key = '',
   $jenkins_ssh_public_key = '',
   $jenkins_default = 'puppet:///modules/jenkins/jenkins.default',
-  $jenkins_version = present,
+  $jenkins_version = 'present',
+  $jenkins_deb_url_base = 'http://pkg.jenkins.io/debian/binary',
 ) {
   include ::pip
   include ::apt
@@ -112,9 +113,40 @@ class jenkins::master(
     ensure => present,
   }
 
-  package { 'jenkins':
-    ensure  => $jenkins_version,
-    require => Apt::Source['jenkins'],
+  # jenkins apt-repo doesn't offer multiple versions
+  # so if anything other than 'present' or 'latest'
+  # is set, pull down the .deb using wget
+  # and install via the dpkg resource
+  if ($jenkins_version == 'present') or
+      ($jenkins_version == 'latest')
+  {
+    package { 'jenkins':
+      ensure  => $jenkins_version,
+      require => Apt::Source['jenkins'],
+    }
+  } else {
+    $jenkins_deb = "jenkins_${jenkins_version}_all.deb"
+    $jenkins_deb_url = "${jenkins_deb_url_base}/${jenkins_deb}"
+    $jenkins_deb_tmp = "/var/tmp/${jenkins_deb}"
+
+    archive { 'jenkins_deb':
+      source => $jenkins_deb_url,
+      path   => $jenkins_deb_tmp,
+    }
+
+    # required by jenkins.deb, but as we're not using apt,
+    # no dependency resolution is performed.
+    package { 'daemon': }
+
+    package { 'jenkins':
+      # for the dpkg provider, latest means check the version,
+      # installed/present skips the version check, we want to version
+      # check so that we can move between versions using puppet
+      ensure   => latest,
+      provider => dpkg,
+      source   => $jenkins_deb_tmp,
+      require  => [Package['daemon'], Archive['jenkins_deb']],
+    }
   }
 
   exec { 'update apt cache':
