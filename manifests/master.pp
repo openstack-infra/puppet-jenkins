@@ -14,10 +14,10 @@ class jenkins::master(
   $jenkins_ssh_public_key = '',
   $jenkins_default = 'puppet:///modules/jenkins/jenkins.default',
   $jenkins_version = present,
+  $manage_apache = true,
 ) {
   include ::pip
   include ::apt
-  include ::httpd
 
   package { 'openjdk-7-jre-headless':
     ensure => present,
@@ -42,62 +42,68 @@ class jenkins::master(
     include_src => false,
   }
 
-  ::httpd::vhost { $vhost_name:
-    port     => 443,
-    docroot  => 'MEANINGLESS ARGUMENT',
-    priority => '50',
-    template => 'jenkins/jenkins.vhost.erb',
-    ssl      => true,
-  }
-  if ! defined(Httpd::Mod['rewrite']) {
-    httpd::mod { 'rewrite':
-      ensure => present,
-    }
-  }
-  if ! defined(Httpd::Mod['proxy']) {
-    httpd::mod { 'proxy':
-      ensure => present,
-    }
-  }
-  if ! defined(Httpd::Mod['proxy_http']) {
-    httpd::mod { 'proxy_http':
-      ensure => present,
-    }
-  }
-  if ! defined(Httpd::Mod['headers']) {
-    httpd::mod { 'headers':
-      ensure => present,
-    }
-  }
 
-  if $ssl_cert_file_contents != '' {
-    file { $ssl_cert_file:
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0640',
-      content => $ssl_cert_file_contents,
-      before  => Httpd::Vhost[$vhost_name],
-    }
-  }
+  if $manage_apache  {
+    include ::httpd
 
-  if $ssl_key_file_contents != '' {
-    file { $ssl_key_file:
-      owner   => 'root',
-      group   => 'ssl-cert',
-      mode    => '0640',
-      content => $ssl_key_file_contents,
-      require => Package['ssl-cert'],
-      before  => Httpd::Vhost[$vhost_name],
+    ::httpd::vhost { $vhost_name:
+      port       => 443,
+      docroot    => $docroot,
+      priority   => '50',
+      template   => 'jenkins/jenkins.vhost.erb',
+      ssl        => true,
+      servername => $servername,
     }
-  }
+    if ! defined(Httpd::Mod['rewrite']) {
+      httpd::mod { 'rewrite':
+        ensure => present,
+      }
+    }
+    if ! defined(Httpd::Mod['proxy']) {
+      httpd::mod { 'proxy':
+        ensure => present,
+      }
+    }
+    if ! defined(Httpd::Mod['proxy_http']) {
+      httpd::mod { 'proxy_http':
+        ensure => present,
+      }
+    }
+    if ! defined(Httpd::Mod['headers']) {
+      httpd::mod { 'headers':
+        ensure => present,
+      }
+    }
 
-  if $ssl_chain_file_contents != '' {
-    file { $ssl_chain_file:
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0640',
-      content => $ssl_chain_file_contents,
-      before  => Httpd::Vhost[$vhost_name],
+    if $ssl_cert_file_contents != '' {
+      file { $ssl_cert_file:
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0640',
+        content => $ssl_cert_file_contents,
+        before  => Httpd::Vhost[$vhost_name],
+      }
+    }
+
+    if $ssl_key_file_contents != '' {
+      file { $ssl_key_file:
+        owner   => 'root',
+        group   => 'ssl-cert',
+        mode    => '0640',
+        content => $ssl_key_file_contents,
+        require => Package['ssl-cert'],
+        before  => Httpd::Vhost[$vhost_name],
+      }
+    }
+
+    if $ssl_chain_file_contents != '' {
+      file { $ssl_chain_file:
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0640',
+        content => $ssl_chain_file_contents,
+        before  => Httpd::Vhost[$vhost_name],
+      }
     }
   }
 
