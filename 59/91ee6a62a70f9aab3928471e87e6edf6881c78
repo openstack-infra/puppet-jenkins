@@ -1,0 +1,10 @@
+Code-Review+2: Ricardo Carrillo Cruz <ricardo.carrillo.cruz@gmail.com>
+Code-Review+1: Mikhail S Medvedev <mihailmed@gmail.com>
+Code-Review+2: Ramy Asselin <ramy.asselin@hpe.com>
+Workflow+1: Ramy Asselin <ramy.asselin@hpe.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Tue, 15 Nov 2016 18:59:29 +0000
+Reviewed-on: https://review.openstack.org/366803
+Project: openstack-infra/puppet-jenkins
+Branch: refs/heads/master
