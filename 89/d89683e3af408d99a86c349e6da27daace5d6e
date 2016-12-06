@@ -1,0 +1,9 @@
+Code-Review+2: Ramy Asselin <ramy.asselin@hpe.com>
+Code-Review+2: Mikhail S Medvedev <mihailmed@gmail.com>
+Workflow+1: Mikhail S Medvedev <mihailmed@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Tue, 06 Dec 2016 20:49:05 +0000
+Reviewed-on: https://review.openstack.org/262787
+Project: openstack-infra/puppet-jenkins
+Branch: refs/heads/master
