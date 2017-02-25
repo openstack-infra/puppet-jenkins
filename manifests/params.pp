@@ -33,6 +33,19 @@ class jenkins::params {
         $cgred_require = Package['cgroups']
       }
     }
+    'Suse': {
+      $jdk_package = 'java-1_8_0-openjdk-devel'
+      $ccache_package = 'ccache'
+      $python_netaddr_package = 'python-netaddr'
+      $cgroups_package = 'libcgroup'
+      $cgroups_tools_package = 'libcgroup-tools'
+      $cgconfig_require = [
+        Package['libcgroup-tools']
+      ]
+      $cgred_require = [
+        Package['libcgroup-tools']
+      ]
+    }
     'Debian': {
       # common packages
       $ccache_package = 'ccache'
@@ -66,7 +79,7 @@ class jenkins::params {
       }
     }
     default: {
-      fail("Unsupported osfamily: ${::osfamily} The 'jenkins' module only supports osfamily Debian or RedHat (slaves only).")
+      fail("Unsupported osfamily: ${::osfamily} The 'jenkins' module only supports osfamily Debian or RedHat/Suse (slaves only).")
     }
   }
 }

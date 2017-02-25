@@ -1,6 +1,9 @@
 <% if @operatingsystem == "Fedora" then
 # Fedora auto-mounts subsystems under /sys/fs/cgroup/ already, so no
 # mount section is needed. %>
+<% elsif @operatingsystem == "Suse" then
+# SUSE auto-mounts subsystems under /sys/fs/cgroup/ already, so no
+# mount section is needed. %>
 <% elsif @osfamily == "RedHat" then %>
 
 mount {
