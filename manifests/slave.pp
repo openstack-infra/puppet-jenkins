@@ -62,6 +62,13 @@ class jenkins::slave(
         }
       }
     }
+    'Suse': {
+      exec { 'zypper devel pattern install':
+        unless  => '/usr/bin/zypper -n info -t pattern devel_basis | /bin/grep -q "Installed.*yes"',
+        command => '/usr/bin/zypper -n in -t pattern devel_basis',
+        timeout => 1800,
+      }
+    }
     'Debian': {
       # install build-essential package group
       package { 'build-essential':
@@ -95,7 +102,7 @@ class jenkins::slave(
       }
     }
     default: {
-      fail("Unsupported osfamily: ${::osfamily} The 'jenkins' module only supports osfamily Debian or RedHat (slaves only).")
+      fail("Unsupported osfamily: ${::osfamily} The 'jenkins' module only supports osfamily Debian or RedHat/Suse (slaves only).")
     }
   }
 
