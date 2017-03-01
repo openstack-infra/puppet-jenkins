@@ -12,7 +12,6 @@ class jenkins::params {
       } else {
         $jdk_package = 'java-1.7.0-openjdk-devel'
       }
-      $ccache_package = 'ccache'
       $python_netaddr_package = 'python-netaddr'
       # FIXME: No Maven packages on RHEL
       #$maven_package = 'maven'
@@ -32,6 +31,9 @@ class jenkins::params {
         $cgconfig_require = Package['cgroups']
         $cgred_require = Package['cgroups']
       }
+      # Don't use ccache; not available on centos without EPEL and we
+      # have wheel caches on fedora.
+      $ccache_package = undef
     }
     'Debian': {
       # common packages

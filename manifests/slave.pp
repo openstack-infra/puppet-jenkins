@@ -27,7 +27,6 @@ class jenkins::slave(
   # Packages that all jenkins slaves need
   $packages = [
     $::jenkins::params::jdk_package, # jdk for building java jobs
-    $::jenkins::params::ccache_package,
     $::jenkins::params::python_netaddr_package, # Needed for devstack address_in_net()
   ]
 
@@ -106,52 +105,60 @@ class jenkins::slave(
     require  => Class[pip],
   }
 
-  file { '/usr/local/bin/gcc':
-    ensure  => link,
-    target  => '/usr/bin/ccache',
-    require => Package['ccache'],
-  }
+  if ($::jenkins::params::ccache_package) {
 
-  file { '/usr/local/bin/g++':
-    ensure  => link,
-    target  => '/usr/bin/ccache',
-    require => Package['ccache'],
-  }
+    package { $::jenkins::params::ccache_package:
+      ensure => present,
+    }
 
-  file { '/usr/local/bin/cc':
-    ensure  => link,
-    target  => '/usr/bin/ccache',
-    require => Package['ccache'],
-  }
+    file { '/usr/local/bin/gcc':
+      ensure  => link,
+      target  => '/usr/bin/ccache',
+      require => Package['ccache'],
+    }
 
-  file { '/usr/local/bin/c++':
-    ensure  => link,
-    target  => '/usr/bin/ccache',
-    require => Package['ccache'],
-  }
+    file { '/usr/local/bin/g++':
+      ensure  => link,
+      target  => '/usr/bin/ccache',
+      require => Package['ccache'],
+    }
 
-  file { "/usr/local/bin/${::hardwareisa}-linux-gnu-gcc":
-    ensure  => link,
-    target  => '/usr/bin/ccache',
-    require => Package['ccache'],
-  }
+    file { '/usr/local/bin/cc':
+      ensure  => link,
+      target  => '/usr/bin/ccache',
+      require => Package['ccache'],
+    }
 
-  file { "/usr/local/bin/${::hardwareisa}-linux-gnu-g++":
-    ensure  => link,
-    target  => '/usr/bin/ccache',
-    require => Package['ccache'],
-  }
+    file { '/usr/local/bin/c++':
+      ensure  => link,
+      target  => '/usr/bin/ccache',
+      require => Package['ccache'],
+    }
 
-  file { "/usr/local/bin/${::hardwareisa}-linux-gnu-cc":
-    ensure  => link,
-    target  => '/usr/bin/ccache',
-    require => Package['ccache'],
-  }
+    file { "/usr/local/bin/${::hardwareisa}-linux-gnu-gcc":
+      ensure  => link,
+      target  => '/usr/bin/ccache',
+      require => Package['ccache'],
+    }
 
-  file { "/usr/local/bin/${::hardwareisa}-linux-gnu-c++":
-    ensure  => link,
-    target  => '/usr/bin/ccache',
-    require => Package['ccache'],
+    file { "/usr/local/bin/${::hardwareisa}-linux-gnu-g++":
+      ensure  => link,
+      target  => '/usr/bin/ccache',
+      require => Package['ccache'],
+    }
+
+    file { "/usr/local/bin/${::hardwareisa}-linux-gnu-cc":
+      ensure  => link,
+      target  => '/usr/bin/ccache',
+      require => Package['ccache'],
+    }
+
+    file { "/usr/local/bin/${::hardwareisa}-linux-gnu-c++":
+      ensure  => link,
+      target  => '/usr/bin/ccache',
+      require => Package['ccache'],
+    }
+
   }
 
   file { '/usr/local/jenkins':
