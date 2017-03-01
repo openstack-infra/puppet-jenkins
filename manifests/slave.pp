@@ -8,7 +8,6 @@ class jenkins::slave(
   $gerrituser = 'jenkins',
 ) {
 
-  include ::haveged
   include ::pip
   include ::jenkins::params
 
@@ -20,6 +19,10 @@ class jenkins::slave(
       gitemail    => $gitemail,
       gerrituser  => $gerrituser,
     }
+  }
+
+  class { '::haveged':
+    haveged_install_options => $::jenkins::params::haveged_install_options,
   }
 
   anchor { 'jenkins::slave::update-java-alternatives': }

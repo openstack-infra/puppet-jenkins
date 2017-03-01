@@ -34,6 +34,13 @@ class jenkins::params {
       # Don't use ccache; not available on centos without EPEL and we
       # have wheel caches on fedora.
       $ccache_package = undef
+
+      # Need to install haveged from EPEL on CentOS.
+      if ($::operatingsystem == 'CentOS') {
+        $haveged_install_options = ['--enablerepo', 'epel']
+      } else {
+        $haveged_install_options = []
+      }
     }
     'Debian': {
       # common packages
@@ -66,6 +73,7 @@ class jenkins::params {
         $ruby_package = 'ruby1.9.1'
         $ruby_dev_package = 'ruby1.9.1-dev'
       }
+      $haveged_install_options = []
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} The 'jenkins' module only supports osfamily Debian or RedHat (slaves only).")
