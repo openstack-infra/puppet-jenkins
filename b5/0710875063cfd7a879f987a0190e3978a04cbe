@@ -1,0 +1,10 @@
+Code-Review+2: Colleen Murphy <colleen@gazlene.net>
+Code-Review+2: Ramy Asselin <ramy.asselin@suse.com>
+Code-Review+2: Ian Wienand <iwienand@redhat.com>
+Workflow+1: Colleen Murphy <colleen@gazlene.net>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Mon, 10 Apr 2017 11:09:08 +0000
+Reviewed-on: https://review.openstack.org/438877
+Project: openstack-infra/puppet-jenkins
+Branch: refs/heads/master
