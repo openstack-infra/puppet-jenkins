@@ -34,13 +34,29 @@ class jenkins::master(
   include ::apt
   include ::httpd
 
-  package { 'openjdk-7-jre-headless':
+  case $::osfamily {
+    'Debian': {
+      if ($::operatingsystem == 'Ubuntu') and ($::operatingsystemrelease >= '16.04') {
+        $jdk_package = 'openjdk-8-jre-headless'
+        $jdk_low_package = 'openjdk-7-jre-headless'
+      } else {
+        $jdk_package = 'openjdk-7-jre-headless'
+        $jdk_low_package = 'openjdk-6-jre-headless'
+      }
+    }
+    default: {
+      $jdk_package = 'openjdk-7-jre-headless'
+      $jdk_low_package = 'openjdk-6-jre-headless'
+    }
+  }
+
+  package { $jdk_package:
     ensure => present,
   }
 
-  package { 'openjdk-6-jre-headless':
+  package { $jdk_low_package:
     ensure  => purged,
-    require => Package['openjdk-7-jre-headless'],
+    require => Package[$jdk_package],
   }
 
   apt::source { 'jenkins':
@@ -52,7 +68,7 @@ class jenkins::master(
       'source' => 'http://pkg.jenkins.io/debian-stable/jenkins.io.key',
     },
     require     => [
-      Package['openjdk-7-jre-headless'],
+      Package[$jdk_package],
     ],
     include_src => false,
   }
