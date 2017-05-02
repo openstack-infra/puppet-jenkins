@@ -32,6 +32,8 @@ class jenkins::params {
         $cgconfig_require = Package['cgroups']
         $cgred_require = Package['cgroups']
       }
+      $jre_package = 'openjdk-7-jre-headless'
+      $jre_low_package = 'openjdk-6-jre-headless'
     }
     'Suse': {
       $jdk_package = 'java-1_8_0-openjdk-devel'
@@ -45,6 +47,8 @@ class jenkins::params {
       $cgred_require = [
         Package['libcgroup-tools']
       ]
+      $jre_package = 'openjdk-7-jre-headless'
+      $jre_low_package = 'openjdk-6-jre-headless'
     }
     'Debian': {
       # common packages
@@ -53,9 +57,13 @@ class jenkins::params {
       if ($::operatingsystem == 'Ubuntu') and ($::operatingsystemrelease >= '16.04') {
         $jdk_package = 'openjdk-8-jdk'
         $maven_package = 'maven'
+        $jre_package = 'openjdk-8-jre-headless'
+        $jre_low_package = 'openjdk-7-jre-headless'
       } else {
         $jdk_package = 'openjdk-7-jdk'
         $maven_package = 'maven2'
+        $jre_package = 'openjdk-7-jre-headless'
+        $jre_low_package = 'openjdk-6-jre-headless'
       }
       $cgroups_package = 'cgroup-bin'
       $cgroups_tools_package = ''

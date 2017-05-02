@@ -33,14 +33,14 @@ class jenkins::master(
   include ::pip
   include ::apt
   include ::httpd
+  include ::jenkins::params
 
-  package { 'openjdk-7-jre-headless':
+  package { $::jenkins::params::jre_package:
     ensure => present,
   }
-
-  package { 'openjdk-6-jre-headless':
+  package { $::jenkins::params::jre_low_package:
     ensure  => purged,
-    require => Package['openjdk-7-jre-headless'],
+    require => Package[$::jenkins::params::jre_package],
   }
 
   apt::source { 'jenkins':
@@ -52,7 +52,7 @@ class jenkins::master(
       'source' => 'http://pkg.jenkins.io/debian-stable/jenkins.io.key',
     },
     require     => [
-      Package['openjdk-7-jre-headless'],
+      Package[$::jenkins::params::jre_package],
     ],
     include_src => false,
   }
