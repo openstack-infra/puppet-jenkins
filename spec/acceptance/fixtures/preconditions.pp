@@ -37,3 +37,13 @@ ssh_keygen { 'ssh_rsa_key':
   ssh_directory => $ssh_key_directory,
   require       => File[$ssh_key_directory],
 }
+
+# snakeoil certs use 'ubuntu' as the CN
+host {'ubuntu':
+  ip => '127.0.0.1'
+}
+
+# JJB doesn't have a --insecure or --capath, so add the snakeoil certs to the system trust store
+exec { 'trust snake oil':
+  command => 'cp /etc/ssl/certs/ssl-cert-snakeoil.pem /usr/local/share/ca-certificates/ubuntu.crt && update-ca-certificates',
+}
