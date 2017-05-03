@@ -1,12 +1,11 @@
 class { '::jenkins::slave':
-  ssh_key => 'sshkey',
-  user    => true
+  user => true
 }
 
 class { '::jenkins::job_builder':
-  url                         => 'https://127.0.0.1',
-  username                    => 'jenkins',
-  password                    => 'secret',
+  url                         => "https://${::fqdn}",
+  username                    => 'admin',
+  password                    => '<<jenkins_default_password>>',
   jenkins_jobs_update_timeout => 1200,
   config_dir                  => '/etc/project-config/jenkins',
   require                     => Class['::jenkins::slave'],
