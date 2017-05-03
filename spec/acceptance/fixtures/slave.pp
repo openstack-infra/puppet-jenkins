@@ -1,6 +1,6 @@
 class { '::jenkins::slave':
-  ssh_key => 'sshkey',
-  user    => true
+  ssh_key => '',
+  user    => false,
 }
 
 class { '::jenkins::job_builder':
