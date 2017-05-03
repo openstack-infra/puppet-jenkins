@@ -37,3 +37,8 @@ ssh_keygen { 'ssh_rsa_key':
   ssh_directory => $ssh_key_directory,
   require       => File[$ssh_key_directory],
 }
+
+# snakeoil certs use 'ubuntu' as the CN
+host {'ubuntu':
+  ip => '127.0.0.1'
+}
