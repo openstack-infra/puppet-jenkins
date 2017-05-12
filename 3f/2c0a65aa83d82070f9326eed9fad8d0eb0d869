@@ -1,0 +1,10 @@
+Code-Review+1: Mikhail S Medvedev <mihailmed@gmail.com>
+Code-Review+2: Colleen Murphy <colleen@gazlene.net>
+Code-Review+2: Ramy Asselin <ramy.asselin@suse.com>
+Workflow+1: Ramy Asselin <ramy.asselin@suse.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Fri, 12 May 2017 11:44:11 +0000
+Reviewed-on: https://review.openstack.org/461708
+Project: openstack-infra/puppet-jenkins
+Branch: refs/heads/master
