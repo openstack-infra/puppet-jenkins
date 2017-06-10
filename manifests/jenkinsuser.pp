@@ -1,7 +1,7 @@
 # == Class: jenkins::jenkinsuser
 #
 class jenkins::jenkinsuser(
-  $ssh_key,
+  $ssh_key = undef,
   $ensure = present,
   $gitfullname = 'OpenStack Jenkins',
   $gitemail = 'jenkins@openstack.org',
@@ -58,14 +58,15 @@ class jenkins::jenkinsuser(
     require => File['/home/jenkins'],
   }
 
-  # cleanup old content in directory
-  file { '/home/jenkins/.ssh/authorized_keys':
-    ensure  => 'file',
-    owner   => 'jenkins',
-    group   => 'jenkins',
-    mode    => '0600',
-    content => template('jenkins/authorized_keys.erb'),
-    require => File['/home/jenkins/.ssh'],
+  if $ssh_key != undef {
+    file { '/home/jenkins/.ssh/authorized_keys':
+      ensure  => 'file',
+      owner   => 'jenkins',
+      group   => 'jenkins',
+      mode    => '0600',
+      content => template('jenkins/authorized_keys.erb'),
+      require => File['/home/jenkins/.ssh'],
+    }
   }
 
   if $gerritkey != undef {
