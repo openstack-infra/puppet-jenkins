@@ -11,9 +11,13 @@ describe 'puppet-jenkins slave module', :if => ['debian', 'ubuntu'].include?(os[
     File.read(module_path)
   end
 
+  def default_password
+    command('/bin/cat /var/lib/jenkins/secrets/initialAdminPassword').stdout.chomp
+  end
+
   def jenkins_slave_puppet_module
     module_path = File.join(pp_path, 'slave.pp')
-    File.read(module_path)
+    File.read(module_path).gsub('<<jenkins_default_password>>', default_password)
   end
 
   before(:all) do
