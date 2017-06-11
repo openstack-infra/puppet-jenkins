@@ -3,7 +3,7 @@ class { '::jenkins::slave':
 }
 
 class { '::jenkins::job_builder':
-  url                         => 'https://127.0.0.1',
+  url                         => "https://${::fqdn}",
   username                    => 'jenkins',
   password                    => 'secret',
   jenkins_jobs_update_timeout => 1200,
