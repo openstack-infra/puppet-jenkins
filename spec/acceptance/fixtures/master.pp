@@ -1,6 +1,4 @@
-class { '::jenkins::jenkinsuser':
-  ssh_key => 'sshkey',
-}
+class { '::jenkins::jenkinsuser': }
 
 class { '::jenkins::master':
   vhost_name              => '127.0.0.1',
