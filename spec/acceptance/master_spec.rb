@@ -29,20 +29,7 @@ describe 'puppet-jenkins master module', :if => ['debian', 'ubuntu'].include?(os
   end
 
   describe 'required services' do
-    describe command('curl http://127.0.0.1 --verbose') do
-      its(:stdout) { should contain('302 Found') }
-      its(:stdout) { should contain('The document has moved') }
-    end
-
-    describe command('curl http://127.0.0.1 --insecure --location --verbose') do
-      its(:stdout) { should contain('Jenkins') }
-    end
-
-    describe command('curl https://127.0.0.1 --insecure') do
-      its(:stdout) { should contain('Jenkins') }
-    end
-
-    describe command('curl 127.0.0.1:8080') do
+    describe command('curl https://`hostname -f`/login --insecure --location --verbose') do
       its(:stdout) { should contain('Jenkins') }
     end
   end
