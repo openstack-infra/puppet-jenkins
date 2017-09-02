@@ -107,7 +107,7 @@ class jenkins::slave(
   }
 
   package { 'tox':
-    ensure   => 'latest',
+    ensure   => '2.7.0',
     provider => openstack_pip,
     require  => Class[pip],
   }
