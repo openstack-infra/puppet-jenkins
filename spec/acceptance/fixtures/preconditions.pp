@@ -12,7 +12,7 @@ vcsrepo { '/etc/project-config':
   ensure   => latest,
   provider => git,
   revision => 'master',
-  source   => 'git://git.openstack.org/openstack-infra/project-config',
+  source   => 'https://git.openstack.org/openstack-infra/project-config',
 }
 
 # Generates ssh rsa keys
