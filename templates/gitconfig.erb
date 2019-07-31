@@ -1,7 +1,0 @@
-[user]
-	name = <%= scope.lookupvar('jenkins::jenkinsuser::gitfullname') %>
-	email = <%= scope.lookupvar('jenkins::jenkinsuser::gitemail') %>
-	signingkey = <%= scope.lookupvar('jenkins::jenkinsuser::gitpgpkey') %>
-[gitreview]
-	rebase = false
-	username = <%= scope.lookupvar('jenkins::jenkinsuser::gerrituser') %>

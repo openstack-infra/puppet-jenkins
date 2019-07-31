@@ -1,3 +1,3 @@
-# OpenStack Jenkins Module
+# This repo has moved to OpenDev
 
-This module installs and configures Jenkins
+It can now be found at [https://opendev.org/opendev/puppet-jenkins](https://opendev.org/opendev/puppet-jenkins)
